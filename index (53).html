@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Peru Tractor · Análisis de Flujo Comercial-Logístico — VERONIX</title>
+<meta name="description" content="Análisis del proceso de repuestos CAT/CTP: cuellos de botella y flujo optimizado. Por VERONIX."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&family=Orbitron:wght@700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0a0b11; --bg-2:#0d0f17; --panel:#12141d; --panel-2:#171a25; --line-panel:#1c1f2b;
+  --ink:#e9ebf2; --muted:#9195a8; --faint:#5c6076; --hair:rgba(255,255,255,.07);
+  --purple:#7b5fff; --purple-soft:#9d88ff; --teal:#2fe6c8; --teal-dim:#1fae97;
+  --crit:#f0545c; --high:#e79246; --med:#d9b445;
+  --grid:rgba(148,152,180,.05);
+  --shadow:0 24px 60px -20px rgba(0,0,0,.7);
+  --r:14px;
+  --font-brand:"Orbitron",sans-serif;
+  --font-display:"Sora",system-ui,sans-serif;
+  --font-body:"IBM Plex Sans",system-ui,sans-serif;
+  --font-mono:"IBM Plex Mono",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);
+  font-weight:400;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:15.5px}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;letter-spacing:-.02em;line-height:1.12;margin:0}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+.eyebrow{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 18px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--teal)}
+.eyebrow b{color:var(--teal);font-weight:500}
+
+/* atmosphere — subtle, not neon */
+.atmos{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.atmos .wash{position:absolute;inset:-20% -10% auto -10%;height:70%;
+  background:radial-gradient(60% 60% at 22% 0%,rgba(123,95,255,.14),transparent 70%),
+             radial-gradient(50% 60% at 88% 8%,rgba(47,230,200,.08),transparent 70%);
+  filter:blur(30px)}
+.atmos .grid{position:absolute;inset:0;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:64px 64px;mask-image:radial-gradient(circle at 50% 20%,black,transparent 75%)}
+main{position:relative;z-index:1}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(18px) saturate(1.2);
+  background:rgba(10,11,17,.72);border-bottom:1px solid var(--hair)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--font-brand);font-weight:700;font-size:.9rem;letter-spacing:.04em}
+.brand .mark{width:22px;height:22px;border-radius:6px;background:
+  conic-gradient(from 210deg,var(--purple),var(--teal),var(--purple));
+  display:grid;place-items:center;box-shadow:0 0 0 1px rgba(255,255,255,.08) inset}
+.brand .mark::after{content:"";width:7px;height:7px;border-radius:2px;background:var(--bg)}
+.brand small{color:var(--faint);font-family:var(--font-body);font-weight:400;letter-spacing:0;font-size:.82rem}
+.navlinks{display:flex;gap:30px;font-size:.86rem;color:var(--muted)}
+.navlinks a{transition:color .2s}
+.navlinks a:hover{color:var(--ink)}
+@media(max-width:840px){.navlinks{display:none}}
+
+/* hero */
+.hero{padding:100px 0 34px;position:relative}
+.tag{display:inline-flex;align-items:center;gap:10px;padding:7px 15px;border:1px solid var(--hair);
+  border-radius:100px;background:rgba(255,255,255,.02);font-size:.78rem;color:var(--muted);margin-bottom:30px;font-family:var(--font-mono)}
+.tag b{color:var(--teal);font-weight:500}
+.tag .pip{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(47,230,200,.14)}
+.hero h1{font-size:clamp(2.3rem,5.2vw,3.9rem);font-weight:800;max-width:15ch;margin-bottom:24px}
+.hero h1 .grad{color:var(--purple-soft)}
+.hero p.lead{font-size:clamp(1.02rem,1.5vw,1.2rem);color:var(--muted);max-width:640px;margin:0 0 38px;font-weight:300}
+.cta{display:flex;gap:13px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:11px;font-family:var(--font-display);
+  font-size:.86rem;font-weight:600;cursor:pointer;border:1px solid transparent;transition:.2s;letter-spacing:-.01em}
+.btn.primary{background:var(--purple);color:#fff}
+.btn.primary:hover{background:var(--purple-soft);transform:translateY(-1px)}
+.btn.ghost{border-color:var(--hair);color:var(--ink);background:rgba(255,255,255,.02)}
+.btn.ghost:hover{border-color:var(--muted)}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:70px;
+  background:var(--hair);border:1px solid var(--hair);border-radius:var(--r);overflow:hidden}
+@media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{padding:26px 24px;background:var(--panel)}
+.stat .num{font-family:var(--font-display);font-size:2.5rem;font-weight:800;line-height:1;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums}
+.stat .num.crit{color:var(--crit)}.stat .num.tl{color:var(--teal)}.stat .num.pp{color:var(--purple-soft)}.stat .num.hi{color:var(--high)}
+.stat .lbl{color:var(--muted);font-size:.82rem;margin-top:11px;line-height:1.4}
+
+/* sections */
+section{padding:92px 0;position:relative}
+.sec-head{max-width:660px;margin-bottom:46px}
+.sec-head h2{font-size:clamp(1.6rem,3vw,2.25rem);font-weight:700;margin-bottom:16px}
+.sec-head p{color:var(--muted);margin:0;font-weight:300}
+.sec-head p b,.hero p b{color:var(--ink);font-weight:600}
+
+/* flow */
+.flow-toolbar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.toggle{display:inline-flex;background:var(--panel);border:1px solid var(--hair);border-radius:11px;padding:4px}
+.toggle button{border:0;background:transparent;color:var(--muted);font-family:var(--font-display);font-size:.82rem;font-weight:600;
+  padding:9px 18px;border-radius:8px;cursor:pointer;transition:.22s;display:flex;align-items:center;gap:9px;letter-spacing:-.01em}
+.toggle button .dot{width:8px;height:8px;border-radius:50%;background:var(--faint);transition:.22s}
+.toggle button[data-mode="asis"] .dot{background:var(--crit)}
+.toggle button[data-mode="tobe"] .dot{background:var(--teal)}
+.toggle button.on{background:var(--panel-2);color:var(--ink);box-shadow:0 1px 0 rgba(255,255,255,.04) inset}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:.76rem;color:var(--muted);font-family:var(--font-mono)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+
+.flow-scroll{overflow-x:auto;overflow-y:hidden;border:1px solid var(--hair);border-radius:var(--r);
+  background:var(--bg-2);scrollbar-width:thin;scrollbar-color:var(--line-panel) transparent}
+.flow-scroll::-webkit-scrollbar{height:8px}
+.flow-scroll::-webkit-scrollbar-thumb{background:var(--line-panel);border-radius:10px}
+.flow-scroll::-webkit-scrollbar-track{background:transparent}
+.flow-canvas{position:relative;min-width:1180px}
+#edges{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:visible}
+.lane-row{display:grid;grid-template-columns:126px 1fr;align-items:center;position:relative;z-index:2;min-height:78px}
+.lane-row.alt{background:rgba(255,255,255,.012)}
+.lane-row+.lane-row .lane-track{border-top:1px solid rgba(255,255,255,.035)}
+.lane-name{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;color:var(--faint);text-transform:uppercase;
+  padding:0 16px;text-align:right;height:100%;display:flex;align-items:center;justify-content:flex-end;
+  border-right:1px solid var(--hair);position:sticky;left:0;background:var(--bg-2);z-index:4}
+.lane-track{position:relative;height:100%}
+.node{position:absolute;top:50%;transform:translateY(-50%);width:142px;padding:10px 12px;border-radius:10px;
+  background:var(--panel);border:1px solid var(--line-panel);font-size:.72rem;line-height:1.34;cursor:pointer;
+  transition:transform .18s,border-color .18s,box-shadow .18s;z-index:3;color:var(--ink)}
+.node:hover{transform:translateY(-50%) translateZ(0) scale(1.035);border-color:var(--purple);box-shadow:var(--shadow);z-index:6}
+.node .nt{font-family:var(--font-mono);font-size:.56rem;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);
+  margin-bottom:5px;display:block}
+.node.start,.node.end{border-radius:30px;text-align:center;background:var(--panel-2);border-color:var(--hair)}
+.node.decision{background:linear-gradient(180deg,rgba(217,180,69,.08),var(--panel));border-color:rgba(217,180,69,.28)}
+.node.decision .nt{color:var(--med)}
+.node.bottleneck{border-left:3px solid var(--sev);padding-left:11px}
+.node.bottleneck .nt{color:var(--sev)}
+.node.bottleneck::after{content:"";position:absolute;top:9px;right:9px;width:6px;height:6px;border-radius:50%;
+  background:var(--sev);box-shadow:0 0 0 3px color-mix(in srgb,var(--sev) 22%,transparent)}
+.node.improved{border-left:3px solid var(--teal);padding-left:11px}
+.node.improved .nt{color:var(--teal)}
+.node.improved::after{content:"✓";position:absolute;top:7px;right:9px;font-size:.66rem;color:var(--teal);font-weight:700}
+.flow-hint{text-align:center;color:var(--faint);font-size:.76rem;margin-top:16px;font-family:var(--font-mono)}
+
+/* drawer */
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(440px,94vw);background:var(--panel);
+  border-left:1px solid var(--hair);z-index:100;transform:translateX(100%);transition:transform .38s cubic-bezier(.5,0,.15,1);
+  box-shadow:var(--shadow);overflow-y:auto;padding:36px 30px}
+.drawer.open{transform:translateX(0)}
+.drawer .close{position:absolute;top:22px;right:24px;background:rgba(255,255,255,.03);border:1px solid var(--hair);
+  color:var(--muted);width:34px;height:34px;border-radius:9px;cursor:pointer;font-size:1rem;transition:.2s}
+.drawer .close:hover{color:var(--ink);border-color:var(--muted)}
+.drawer .sev-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 13px;border-radius:7px;font-family:var(--font-mono);
+  font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px}
+.drawer .sev-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.drawer h3{font-size:1.3rem;margin-bottom:8px;line-height:1.2;font-weight:700}
+.drawer .lane-chip{font-size:.76rem;color:var(--faint);margin-bottom:26px;font-family:var(--font-mono)}
+.drawer .block{margin-bottom:16px;padding:18px;border-radius:11px;background:var(--bg-2);border:1px solid var(--hair)}
+.drawer .block h4{margin:0 0 9px;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.drawer .block p{margin:0;font-size:.92rem;color:var(--ink);font-weight:300}
+.drawer .block.ia{border-color:rgba(123,95,255,.32);background:linear-gradient(180deg,rgba(123,95,255,.06),var(--bg-2))}
+.drawer .block.ia h4{color:var(--purple-soft)}
+.overlay{position:fixed;inset:0;background:rgba(6,7,12,.62);backdrop-filter:blur(2px);z-index:99;opacity:0;pointer-events:none;transition:.3s}
+.overlay.show{opacity:1;pointer-events:auto}
+
+/* cards */
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:30px}
+.filters button{background:var(--panel);border:1px solid var(--hair);color:var(--muted);font-family:var(--font-body);
+  font-size:.82rem;font-weight:500;padding:8px 16px;border-radius:100px;cursor:pointer;transition:.2s}
+.filters button.active{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.filters button:hover:not(.active){border-color:var(--muted);color:var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.card{border:1px solid var(--hair);border-radius:var(--r);padding:24px;background:var(--panel);
+  position:relative;overflow:hidden;transition:.25s;cursor:pointer}
+.card::before{content:"";position:absolute;left:0;top:0;height:100%;width:3px;background:var(--sev)}
+.card:hover{transform:translateY(-3px);border-color:var(--line-panel);box-shadow:var(--shadow)}
+.card .rank{font-family:var(--font-display);font-size:2.2rem;font-weight:800;color:var(--sev);opacity:.16;position:absolute;top:16px;right:20px;line-height:1;font-variant-numeric:tabular-nums}
+.card .sev{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sev)}
+.card h3{font-size:1.06rem;margin:10px 0 11px;padding-right:44px;line-height:1.28;font-weight:600}
+.card .desc{font-size:.88rem;color:var(--muted);margin:0 0 16px;font-weight:300}
+.card .fix{font-size:.86rem;color:var(--ink);padding-top:15px;border-top:1px solid var(--hair);font-weight:300}
+.card .fix b{color:var(--teal);font-family:var(--font-mono);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:6px}
+.card.hide{display:none}
+
+/* matrix */
+.matrix-wrap{display:grid;grid-template-columns:1.25fr .9fr;gap:38px;align-items:center}
+@media(max-width:900px){.matrix-wrap{grid-template-columns:1fr}}
+.matrix{position:relative;aspect-ratio:1/.82;border:1px solid var(--hair);border-radius:var(--r);background:var(--bg-2);overflow:hidden}
+.quad{position:absolute;width:50%;height:50%;padding:15px;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+.q-tl{top:0;left:0}.q-tr{top:0;right:0;text-align:right}.q-bl{bottom:0;left:0}.q-br{bottom:0;right:0;text-align:right}
+.q-tl{background:rgba(47,230,200,.035)}.q-tr{background:rgba(123,95,255,.04)}
+.axis-x{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:.64rem;color:var(--faint);font-family:var(--font-mono)}
+.axis-y{position:absolute;left:8px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:.64rem;color:var(--faint);font-family:var(--font-mono)}
+.mid-h{position:absolute;top:50%;left:0;width:100%;border-top:1px dashed var(--hair)}
+.mid-v{position:absolute;left:50%;top:0;height:100%;border-left:1px dashed var(--hair)}
+.plot{position:absolute;width:14px;height:14px;border-radius:50%;transform:translate(-50%,50%);cursor:pointer;
+  border:2px solid var(--bg-2);transition:.2s;z-index:3}
+.plot:hover{transform:translate(-50%,50%) scale(1.45);z-index:8}
+.plot .tip{position:absolute;bottom:150%;left:50%;transform:translateX(-50%);background:var(--panel-2);border:1px solid var(--hair);
+  padding:6px 11px;border-radius:7px;font-family:var(--font-body);font-size:.74rem;white-space:nowrap;opacity:0;pointer-events:none;transition:.18s;color:var(--ink);z-index:10;font-weight:500}
+.plot:hover .tip{opacity:1}
+.matrix-legend .mi{display:flex;gap:13px;align-items:flex-start;margin-bottom:20px}
+.matrix-legend .mi i{width:11px;height:11px;border-radius:50%;flex:0 0 auto;margin-top:6px}
+.matrix-legend .mi b{font-family:var(--font-display);font-size:.9rem;display:block;margin-bottom:3px;font-weight:600}
+.matrix-legend .mi span{color:var(--muted);font-size:.85rem;font-weight:300}
+
+/* kpi */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:16px}
+.kpi{border:1px solid var(--hair);border-radius:var(--r);padding:24px;background:var(--panel)}
+.kpi .kt{font-size:.86rem;color:var(--muted);margin-bottom:16px;min-height:40px;font-weight:400}
+.kpi .kv{font-family:var(--font-display);font-weight:800;font-size:1.75rem;display:flex;align-items:baseline;gap:9px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.kpi .kv .from{color:var(--faint);font-size:.95rem;text-decoration:line-through;font-weight:500}
+.kpi .kv .arrow{color:var(--faint);font-size:1rem}
+.kpi .kv .to{color:var(--teal)}
+.kpi .bar{height:5px;border-radius:10px;background:var(--bg-2);margin-top:18px;overflow:hidden}
+.kpi .bar i{display:block;height:100%;width:0;border-radius:10px;background:linear-gradient(90deg,var(--purple),var(--teal));transition:width 1.2s cubic-bezier(.4,0,.1,1)}
+.kpi .goal{font-size:.72rem;color:var(--faint);margin-top:11px;font-family:var(--font-mono)}
+.note-meta{font-size:.78rem;color:var(--faint);margin-top:24px;font-weight:300}
+
+/* roadmap */
+.road{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:820px){.road{grid-template-columns:1fr}}
+.phase{border:1px solid var(--hair);border-radius:var(--r);padding:26px;background:var(--panel);position:relative}
+.phase .ph-n{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.phase h3{font-size:1.18rem;margin:8px 0 3px;font-weight:700}
+.phase .days{color:var(--faint);font-size:.78rem;margin-bottom:18px;font-family:var(--font-mono)}
+.phase ul{list-style:none;padding:0;margin:0}
+.phase li{padding:11px 0 11px 24px;position:relative;font-size:.88rem;color:var(--muted);border-top:1px solid var(--hair);font-weight:300}
+.phase li:first-child{border-top:0}
+.phase li::before{content:"";position:absolute;left:0;top:17px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+.phase.p1{--accent:var(--purple-soft)}.phase.p2{--accent:var(--teal)}.phase.p3{--accent:var(--high)}
+
+/* footer */
+footer{border-top:1px solid var(--hair);padding:44px 0;margin-top:30px;color:var(--faint);font-size:.82rem}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+
+.reveal{opacity:0;transform:translateY(22px);transition:.65s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="atmos"><div class="wash"></div><div class="grid"></div></div>
+
+<nav class="nav"><div class="wrap">
+  <div class="brand"><span class="mark"></span>VERONIX<small>Peru Tractor</small></div>
+  <div class="navlinks">
+    <a href="#flujo">Flujo</a><a href="#cuellos">Cuellos</a><a href="#matriz">Prioridad</a><a href="#kpis">KPIs</a><a href="#ruta">Hoja de ruta</a>
+  </div>
+</div></nav>
+
+<main>
+<header class="hero"><div class="wrap">
+  <div class="tag"><span class="pip"></span>Repuestos CAT/CTP · Proceso comercial-logístico · <b>Diagnóstico</b></div>
+  <h1>Del pedido a la entrega: <span class="grad">dónde se pierde el tiempo</span> y cómo recuperarlo.</h1>
+  <p class="lead">Análisis del flujo operativo actual de Peru Tractor. Reconstruimos el proceso completo, señalamos los cuellos de botella y proponemos un flujo optimizado — navegable, paso a paso.</p>
+  <div class="cta">
+    <a href="#flujo" class="btn primary">Explorar el flujo</a>
+    <a href="#cuellos" class="btn ghost">Ver los 7 cuellos</a>
+  </div>
+  <div class="stats">
+    <div class="stat reveal"><div class="num pp" data-count="69">0</div><div class="lbl">pasos mapeados en el proceso</div></div>
+    <div class="stat reveal"><div class="num tl" data-count="8">0</div><div class="lbl">áreas involucradas (carriles)</div></div>
+    <div class="stat reveal"><div class="num hi" data-count="7">0</div><div class="lbl">cuellos de botella detectados</div></div>
+    <div class="stat reveal"><div class="num crit" data-count="1">0</div><div class="lbl">crítico: verificación 5:15 p.m.</div></div>
+  </div>
+</div></header>
+
+<section id="flujo"><div class="wrap">
+  <div class="sec-head reveal">
+    <p class="eyebrow"><b>01</b> Mapa del proceso</p>
+    <h2>El flujo, carril por carril</h2>
+    <p>Alterna entre la operación <b>actual (AS-IS)</b> y la <b>propuesta (TO-BE)</b>. Haz clic en cualquier paso para ver el detalle y la recomendación de IA.</p>
+  </div>
+  <div class="flow-toolbar reveal">
+    <div class="toggle" id="toggle">
+      <button class="on" data-mode="asis"><span class="dot"></span>Actual · AS-IS</button>
+      <button data-mode="tobe"><span class="dot"></span>Optimizado · TO-BE</button>
+    </div>
+    <div class="legend">
+      <span><i style="background:var(--purple)"></i>Proceso</span>
+      <span><i style="background:var(--med)"></i>Decisión</span>
+      <span><i style="background:var(--crit)"></i>Cuello</span>
+      <span><i style="background:var(--teal)"></i>Mejora</span>
+    </div>
+  </div>
+  <div class="flow-scroll reveal">
+    <div class="flow-canvas" id="canvas"><svg id="edges"></svg></div>
+  </div>
+  <p class="flow-hint">Desliza horizontalmente para recorrer el proceso · toca un nodo para el detalle</p>
+</div></section>
+
+<section id="cuellos"><div class="wrap">
+  <div class="sec-head reveal">
+    <p class="eyebrow"><b>02</b> Diagnóstico</p>
+    <h2>Los 7 cuellos de botella</h2>
+    <p>Ordenados por severidad. El más grave lo advierte el propio archivo original de la empresa.</p>
+  </div>
+  <div class="filters reveal" id="filters">
+    <button class="active" data-f="all">Todos</button>
+    <button data-f="crit">Crítico</button>
+    <button data-f="high">Alto</button>
+    <button data-f="med">Medio</button>
+  </div>
+  <div class="cards" id="cards"></div>
+</div></section>
+
+<section id="matriz"><div class="wrap">
+  <div class="sec-head reveal">
+    <p class="eyebrow"><b>03</b> Priorización</p>
+    <h2>Qué atacar primero</h2>
+    <p>Cada iniciativa ubicada según su <b>impacto</b> y el <b>esfuerzo</b> de implementarla. Pasa el cursor sobre cada punto.</p>
+  </div>
+  <div class="matrix-wrap reveal">
+    <div class="matrix" id="matrix">
+      <div class="quad q-tl">Quick wins</div><div class="quad q-tr">Grandes apuestas</div>
+      <div class="quad q-bl">Bajo valor</div><div class="quad q-br">Reevaluar</div>
+      <div class="mid-h"></div><div class="mid-v"></div>
+      <div class="axis-x">Esfuerzo →</div><div class="axis-y">Impacto →</div>
+    </div>
+    <div class="matrix-legend">
+      <div class="mi"><i style="background:var(--teal)"></i><div><b>Quick wins · 0–30 días</b><span>Alto impacto, poco esfuerzo. Empezar aquí: checkpoint con sello, radios, reportes diarios, zona de staging.</span></div></div>
+      <div class="mi"><i style="background:var(--purple)"></i><div><b>Grandes apuestas · 30–90+ días</b><span>Alto impacto, mayor esfuerzo: slotting ABC, escaneo QR + dashboard, doble corte de importación.</span></div></div>
+      <div class="mi"><i style="background:var(--high)"></i><div><b>Reevaluar</b><span>Requieren inversión o espacio: ampliación de despacho y racks. Justificar con datos primero.</span></div></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="kpis"><div class="wrap">
+  <div class="sec-head reveal">
+    <p class="eyebrow"><b>04</b> Cómo se mide el éxito</p>
+    <h2>Indicadores objetivo</h2>
+    <p>Metas propuestas para el flujo optimizado. Hoy la mayoría no se mide: ese es, en sí mismo, uno de los hallazgos.</p>
+  </div>
+  <div class="kpi-grid" id="kpis-grid"></div>
+  <p class="note-meta">* Metas de referencia propuestas por el análisis, a calibrar con la línea base real una vez se active la trazabilidad (escaneo + dashboard).</p>
+</div></section>
+
+<section id="ruta"><div class="wrap">
+  <div class="sec-head reveal">
+    <p class="eyebrow"><b>05</b> Plan de acción</p>
+    <h2>Hoja de ruta por fases</h2>
+    <p>De lo que se puede hacer ya, a lo estructural. Muchas de estas iniciativas ya estaban identificadas en la Hoja1 del archivo: aquí se validan y se priorizan.</p>
+  </div>
+  <div class="road">
+    <div class="phase p1 reveal"><span class="ph-n">Fase 1</span><h3>Quick wins</h3><div class="days">0 – 30 días</div>
+      <ul>
+        <li>Checkpoint de calidad con sello/escaneo, desacoplado de la hora de salida</li>
+        <li>Corte de despacho fijo (ej. 3:00 p.m. same-day)</li>
+        <li>Radios en tiempo real con política de uso</li>
+        <li>Reportes diarios de guías, despachos y devoluciones</li>
+        <li>Zona única de staging rotulada por destino</li>
+      </ul></div>
+    <div class="phase p2 reveal"><span class="ph-n">Fase 2</span><h3>Optimización</h3><div class="days">30 – 90 días</div>
+      <ul>
+        <li>Slotting ABC: alta rotación al 1.er piso / patio</li>
+        <li>Wave picking por ruta y destino</li>
+        <li>Doble corte semanal de importación + SLA de lead time</li>
+        <li>Film y materiales en el punto de uso (despacho)</li>
+        <li>Refuerzo de dotación: almacén ×2, motorizado, apoyo AQP</li>
+      </ul></div>
+    <div class="phase p3 reveal"><span class="ph-n">Fase 3</span><h3>Estructural</h3><div class="days">90+ días</div>
+      <ul>
+        <li>Escaneo QR de extremo a extremo + dashboard diario</li>
+        <li>Crédito pre-aprobado y facturación en paralelo</li>
+        <li>Ampliación de la zona de despacho y racks</li>
+        <li>Backup del rol único de despacho (evitar punto de falla)</li>
+        <li>Integración de trazabilidad con SAP / Proficont</li>
+      </ul></div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div class="brand"><span class="mark"></span>VERONIX</div>
+  <div>Análisis de flujo comercial-logístico · Peru Tractor · Repuestos CAT/CTP · 2026</div>
+</div></footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer"><button class="close" id="drawerClose">✕</button><div id="drawerBody"></div></aside>
+
+<script>
+const LANES=["Cliente","Ventas","Logística","Importaciones","Contabilidad","Almacén","Despacho"];
+const NODES=[
+ {id:"n1",stage:0,lane:0,type:"start",t:"Cliente solicita cotización"},
+ {id:"n2",stage:1,lane:1,type:"process",t:"Verifica stock en Proficont / SAP"},
+ {id:"n3",stage:2,lane:1,type:"decision",t:"¿Stock completo?"},
+ {id:"n4",stage:3,lane:3,type:"process",asis:{bn:"high",t:"Programa importación · corte único los miércoles"},tobe:{imp:true,t:"Doble corte semanal + SLA de lead time"},
+   desc:"El abastecimiento de faltantes por importación tiene un único corte semanal. Perder el miércoles significa esperar toda una semana.",
+   fix:"Habilitar un segundo corte semanal y comunicar un SLA de lead time a Ventas y al cliente para dar previsibilidad."},
+ {id:"n5",stage:4,lane:1,type:"process",t:"Se emite cotización · Cliente confirma pedido"},
+ {id:"n6",stage:5,lane:4,type:"process",asis:{bn:"med",t:"Valida crédito → genera factura (en serie)"},tobe:{imp:true,t:"Crédito pre-aprobado · facturación en paralelo"},
+   desc:"La validación de línea de crédito y la facturación ocurren en serie dentro del camino crítico, alargando el tiempo total antes de preparar el pedido.",
+   fix:"Pre-aprobar líneas de crédito por cliente y facturar en paralelo a la preparación, no antes de ella."},
+ {id:"n7",stage:6,lane:5,type:"process",asis:{bn:"high",t:"Verifica ubicación multipiso en SAP (1º/2º/3º/patio)"},tobe:{imp:true,t:"Slotting ABC · alta rotación en 1.er piso/patio"},
+   desc:"Los repuestos están dispersos en tres pisos y patio. Localizar cada ítem obliga a recorridos verticales antes siquiera de tomar el producto.",
+   fix:"Aplicar slotting ABC: reubicar los ítems de mayor rotación al 1.er piso y patio para minimizar el uso del ascensor."},
+ {id:"n8",stage:7,lane:5,type:"process",asis:{bn:"high",t:"Picking en 2.º/3.er piso · ascensor recurso único"},tobe:{imp:true,t:"Wave picking por ruta · menos movimientos verticales"},
+   desc:"El picking en pisos superiores depende de un ascensor compartido: se forman colas y se acumula trabajo en curso.",
+   fix:"Organizar wave picking por ruta/destino y coordinar las bajadas por olas para descongestionar el ascensor."},
+ {id:"n9",stage:8,lane:5,type:"process",asis:{bn:"med",t:"Envía correo al almacenero del 1.er piso"},tobe:{imp:true,t:"Coordinación por radio en tiempo real"},
+   desc:"La coordinación entre pisos se hace por correo electrónico, introduciendo latencia en cada traspaso.",
+   fix:"Dotar de radios con una política de uso clara (iniciativa ya registrada en la Hoja1 del archivo)."},
+ {id:"n10",stage:9,lane:5,type:"process",asis:{bn:"high",t:"Recibe y consolida (stock + locales + Arriola/Huachipa)"},tobe:{imp:true,t:"Zona única de staging rotulada por destino"},
+   desc:"La consolidación ocurre en varios puntos físicos, generando doble manipulación y pedidos incompletos a destiempo.",
+   fix:"Definir una única zona de staging rotulada por destino (provincia / local / oficina) donde converge todo."},
+ {id:"n11",stage:10,lane:6,type:"process",t:"Embalaje en zona 1 (3 mesas en paralelo)"},
+ {id:"n12",stage:11,lane:6,type:"process",asis:{bn:"crit",t:"Verifica ítems — cerca de la salida (5:15 pm); a veces no se ejecuta"},tobe:{imp:true,t:"Checkpoint obligatorio con sello/escaneo, desacoplado de la hora"},
+   desc:"CUELLO CRÍTICO. El propio archivo advierte que este control se hace cerca de la hora de salida y \"algunas veces no lo ejecutan\". Es la causa raíz de despachos errados, devoluciones y reprocesos.",
+   fix:"Convertirlo en checkpoint obligatorio con sello/escaneo (doble control), anclado a un corte de despacho fijo y no a la hora de salida."},
+ {id:"n13",stage:12,lane:6,type:"decision",t:"¿Destino? provincia / local / recojo"},
+ {id:"n14",stage:13,lane:0,type:"end",t:"Cliente recibe / recoge los repuestos"},
+];
+const EDGES=[["n1","n2"],["n2","n3"],["n3","n4"],["n4","n5"],["n5","n6"],["n6","n7"],["n7","n8"],["n8","n9"],["n9","n10"],["n10","n11"],["n11","n12"],["n12","n13"],["n13","n14"]];
+const SEV={crit:{c:"var(--crit)",lbl:"Crítico"},high:{c:"var(--high)",lbl:"Alto"},med:{c:"var(--med)",lbl:"Medio"}};
+const BOTTLENECKS=[
+ {rank:1,sev:"crit",title:"Verificación atada a la hora de salida",lane:"Despacho",desc:"El control de ítems se hace hacia las 5:15 p.m. y —según el propio archivo— a veces no se ejecuta.",fix:"Checkpoint obligatorio con sello/escaneo, desacoplado de la hora y con corte de despacho fijo."},
+ {rank:2,sev:"high",title:"Picking multipiso con ascensor único",lane:"Almacén",desc:"Recorridos verticales por 1º/2º/3º piso y un ascensor compartido que forma colas.",fix:"Slotting ABC + wave picking por ruta para reducir movimientos verticales."},
+ {rank:3,sev:"high",title:"Consolidación fragmentada",lane:"Almacén",desc:"Se junta stock, compras locales y recojos de Arriola/Huachipa en varios puntos.",fix:"Zona única de staging rotulada por destino, con un solo punto de convergencia."},
+ {rank:4,sev:"high",title:"Corte de importación semanal único",lane:"Importaciones",desc:"Un solo corte los miércoles: perderlo implica esperar una semana completa.",fix:"Doble corte semanal + SLA de lead time comunicado a Ventas y cliente."},
+ {rank:5,sev:"high",title:"Sin trazabilidad ni reportería",lane:"Transversal",desc:"Guías, despachos y devoluciones no se miden; la reportería está \"por implementar\".",fix:"Escaneo QR de punta a punta + dashboard diario integrado con SAP/Proficont."},
+ {rank:6,sev:"med",title:"Coordinación por correo electrónico",lane:"Almacén",desc:"Los traspasos entre pisos se comunican por correo, sumando latencia.",fix:"Radios en tiempo real con política de uso (ya prevista en la Hoja1)."},
+ {rank:7,sev:"med",title:"Facturación y crédito en serie",lane:"Ventas / Contabilidad",desc:"Validar crédito y facturar antes de preparar alarga el camino crítico.",fix:"Crédito pre-aprobado y facturación en paralelo a la preparación."},
+];
+const KPIS=[
+ {t:"Cumplimiento del checkpoint de calidad",from:"irregular",to:"100%",pct:100,goal:"Meta: control siempre ejecutado"},
+ {t:"Errores de despacho y devoluciones",from:"línea base",to:"−50%",pct:75,goal:"Objetivo: reducción a la mitad"},
+ {t:"Lead time de preparación (picking → despacho)",from:"actual",to:"−30%",pct:68,goal:"Objetivo: menos recorridos verticales"},
+ {t:"Pedidos completos y a tiempo (OTIF)",from:"—",to:"≥95%",pct:95,goal:"Meta de nivel de servicio"},
+ {t:"Trazabilidad de despachos",from:"0%",to:"100%",pct:100,goal:"De cero a total con escaneo QR"},
+ {t:"Cortes de importación por semana",from:"1",to:"2",pct:100,goal:"Doble ventana de abastecimiento"},
+];
+const MATRIX=[
+ {t:"Checkpoint con sello",eff:2,imp:10,sev:"crit"},{t:"Radios en tiempo real",eff:2,imp:6,sev:"med"},
+ {t:"Reportes diarios",eff:4,imp:7,sev:"high"},{t:"Zona única de staging",eff:3,imp:7,sev:"high"},
+ {t:"Slotting ABC",eff:5,imp:8,sev:"high"},{t:"Wave picking",eff:5,imp:6,sev:"high"},
+ {t:"Doble corte importación + SLA",eff:4,imp:7,sev:"high"},{t:"Escaneo QR + dashboard",eff:6,imp:9,sev:"high"},
+ {t:"Crédito preaprobado / factura paralela",eff:6,imp:6,sev:"med"},{t:"Ampliación despacho + racks",eff:8,imp:5,sev:"high"},
+];
+
+const canvas=document.getElementById("canvas"),edgesSvg=document.getElementById("edges");
+const COLW=170,LANEH=78,LEFT=126;let mode="asis";
+function buildFlow(){
+  canvas.querySelectorAll(".lane-row").forEach(e=>e.remove());
+  const maxStage=Math.max(...NODES.map(n=>n.stage));
+  canvas.style.width=(LEFT+(maxStage+1)*COLW+30)+"px";
+  LANES.forEach((ln,li)=>{
+    const row=document.createElement("div");row.className="lane-row"+(li%2?" alt":"");
+    row.innerHTML=`<div class="lane-name">${ln}</div><div class="lane-track"></div>`;
+    canvas.appendChild(row);
+    const track=row.querySelector(".lane-track");
+    NODES.filter(n=>n.lane===li).forEach(n=>{
+      const el=document.createElement("div"),m=n[mode];
+      let cls="node "+n.type,sev="",label=n.t,nt=n.type==="start"?"Inicio":n.type==="end"?"Fin":n.type==="decision"?"Decisión":"Proceso";
+      if(m&&mode==="asis"&&m.bn){cls+=" bottleneck";sev=`--sev:${SEV[m.bn].c}`;label=m.t;nt="Cuello · "+SEV[m.bn].lbl;}
+      else if(m&&mode==="tobe"&&m.imp){cls+=" improved";label=m.t;nt="Mejora";}
+      el.className=cls;el.style.cssText=`left:${n.stage*COLW}px;${sev}`;el.dataset.id=n.id;
+      el.innerHTML=`<span class="nt">${nt}</span>${label}`;
+      el.addEventListener("click",()=>openNode(n));
+      track.appendChild(el);
+    });
+  });
+  requestAnimationFrame(drawEdges);
+}
+function drawEdges(){
+  const cb=canvas.getBoundingClientRect();
+  edgesSvg.setAttribute("width",canvas.offsetWidth);edgesSvg.setAttribute("height",canvas.offsetHeight);
+  const pos={};let out="";
+  canvas.querySelectorAll(".node").forEach(el=>{const r=el.getBoundingClientRect();pos[el.dataset.id]={x:r.left-cb.left,y:r.top-cb.top,w:r.width,h:r.height};});
+  EDGES.forEach(([a,b])=>{
+    const A=pos[a],B=pos[b];if(!A||!B)return;
+    const x1=A.x+A.w,y1=A.y+A.h/2,x2=B.x,y2=B.y+B.h/2,mx=(x1+x2)/2;
+    const col=(isBn(b)&&mode==="asis")?SEV[nodeBn(b)].c:(mode==="tobe"&&isImp(b))?"var(--teal)":"rgba(148,152,180,.32)";
+    const w=(isBn(b)&&mode==="asis")?2:1.3;
+    out+=`<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2-6},${y2}" fill="none" stroke="${col}" stroke-width="${w}"/>`;
+    out+=`<path d="M${x2-6},${y2-3.5} L${x2},${y2} L${x2-6},${y2+3.5} Z" fill="${col}"/>`;
+  });
+  edgesSvg.innerHTML=out;
+}
+const nodeById=id=>NODES.find(n=>n.id===id);
+const isBn=id=>{const n=nodeById(id);return n&&n.asis&&n.asis.bn;};
+const nodeBn=id=>nodeById(id).asis.bn;
+const isImp=id=>{const n=nodeById(id);return n&&n.tobe&&n.tobe.imp;};
+
+const drawer=document.getElementById("drawer"),overlay=document.getElementById("overlay"),dbody=document.getElementById("drawerBody");
+function openNode(n){
+  const m=n[mode];let html="";
+  const isBottle=mode==="asis"&&m&&m.bn,isImpN=mode==="tobe"&&m&&m.imp;
+  if(isBottle){const s=SEV[m.bn];
+    html+=`<span class="sev-tag" style="background:color-mix(in srgb,${s.c} 14%,transparent);color:${s.c}">Cuello · ${s.lbl}</span>`;
+    html+=`<h3>${m.t}</h3><div class="lane-chip">Área: ${LANES[n.lane]}</div>`;
+    html+=`<div class="block"><h4>Por qué frena</h4><p>${n.desc}</p></div>`;
+    html+=`<div class="block ia"><h4>✦ Recomendación IA · Claude</h4><p>${n.fix}</p></div>`;
+  }else if(isImpN){
+    html+=`<span class="sev-tag" style="background:color-mix(in srgb,var(--teal) 14%,transparent);color:var(--teal)">Mejora propuesta</span>`;
+    html+=`<h3>${m.t}</h3><div class="lane-chip">Área: ${LANES[n.lane]}</div>`;
+    html+=`<div class="block"><h4>Qué resuelve</h4><p>${n.desc||"Optimización del paso para eliminar esperas y reprocesos."}</p></div>`;
+    if(n.fix)html+=`<div class="block ia"><h4>✦ Cómo se aplica</h4><p>${n.fix}</p></div>`;
+  }else{
+    html+=`<span class="sev-tag" style="background:color-mix(in srgb,var(--purple) 16%,transparent);color:var(--purple-soft)">${n.type==="decision"?"Punto de decisión":n.type==="start"?"Inicio":n.type==="end"?"Fin del proceso":"Paso del proceso"}</span>`;
+    html+=`<h3>${n.t}</h3><div class="lane-chip">Área: ${LANES[n.lane]}</div>`;
+    html+=`<div class="block"><h4>Rol en el flujo</h4><p>Paso ${n.stage+1} del recorrido de extremo a extremo. Sin observaciones críticas en este punto.</p></div>`;
+  }
+  dbody.innerHTML=html;drawer.classList.add("open");overlay.classList.add("show");
+}
+function closeDrawer(){drawer.classList.remove("open");overlay.classList.remove("show");}
+document.getElementById("drawerClose").onclick=closeDrawer;overlay.onclick=closeDrawer;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer();});
+
+const toggle=document.getElementById("toggle");
+toggle.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+  mode=b.dataset.mode;toggle.querySelectorAll("button").forEach(x=>x.classList.remove("on"));b.classList.add("on");buildFlow();
+});
+
+const cardsEl=document.getElementById("cards");
+BOTTLENECKS.forEach(b=>{const s=SEV[b.sev];const c=document.createElement("div");
+  c.className="card";c.style.cssText=`--sev:${s.c}`;c.dataset.sev=b.sev;
+  c.innerHTML=`<span class="rank">${b.rank<10?"0":""}${b.rank}</span><span class="sev">${s.lbl}</span><h3>${b.title}</h3><p class="desc">${b.desc}</p><div class="fix"><b>Recomendación IA</b>${b.fix}</div>`;
+  cardsEl.appendChild(c);});
+document.getElementById("filters").addEventListener("click",e=>{
+  if(e.target.tagName!=="BUTTON")return;
+  document.querySelectorAll("#filters button").forEach(b=>b.classList.remove("active"));
+  e.target.classList.add("active");const f=e.target.dataset.f;
+  document.querySelectorAll(".card").forEach(c=>c.classList.toggle("hide",f!=="all"&&c.dataset.sev!==f));
+});
+
+const kg=document.getElementById("kpis-grid");
+KPIS.forEach(k=>{const el=document.createElement("div");el.className="kpi";
+  el.innerHTML=`<div class="kt">${k.t}</div><div class="kv"><span class="from">${k.from}</span><span class="arrow">→</span><span class="to">${k.to}</span></div><div class="bar"><i data-pct="${k.pct}"></i></div><div class="goal">${k.goal}</div>`;
+  kg.appendChild(el);});
+
+const mx=document.getElementById("matrix");
+MATRIX.forEach(m=>{const p=document.createElement("div");p.className="plot";const s=SEV[m.sev];
+  p.style.cssText=`left:${m.eff/10*100}%;bottom:${m.imp/10*100}%;background:${s.c}`;
+  p.innerHTML=`<span class="tip">${m.t}</span>`;mx.appendChild(p);});
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}}),{threshold:.14});
+document.querySelectorAll(".reveal").forEach(e=>io.observe(e));
+const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,end=+el.dataset.count;let cur=0;const st=Math.max(1,Math.ceil(end/40));const t=setInterval(()=>{cur+=st;if(cur>=end){cur=end;clearInterval(t);}el.textContent=cur;},26);cio.unobserve(el);}),{threshold:.6});
+document.querySelectorAll("[data-count]").forEach(e=>cio.observe(e));
+const bio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.width=e.target.dataset.pct+"%";bio.unobserve(e.target);}}),{threshold:.5});
+document.querySelectorAll(".kpi .bar i").forEach(e=>bio.observe(e));
+
+window.addEventListener("resize",()=>requestAnimationFrame(drawEdges));
+buildFlow();setTimeout(drawEdges,300);
+</script>
+</body>
+</html>
