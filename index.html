@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -10,190 +10,211 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&family=Orbitron:wght@700&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --bg:#0a0b11; --bg-2:#0d0f17; --panel:#12141d; --panel-2:#171a25; --line-panel:#1c1f2b;
-  --ink:#e9ebf2; --muted:#9195a8; --faint:#5c6076; --hair:rgba(255,255,255,.07);
-  --purple:#7b5fff; --purple-soft:#9d88ff; --teal:#2fe6c8; --teal-dim:#1fae97;
-  --crit:#f0545c; --high:#e79246; --med:#d9b445;
+  /* LIGHT (default) */
+  --bg:#f3f4fa; --bg-2:#ffffff; --panel:#ffffff; --panel-2:#f6f7fc; --line-panel:#e5e7f0;
+  --ink:#191c2b; --muted:#585e75; --faint:#8990a6; --hair:rgba(25,28,55,.10);
+  --purple:#6a45ff; --purple-soft:#6a45ff; --teal:#08a88c; --teal-ink:#07907a;
+  --crit:#e23b47; --high:#d47716; --med:#b8930d;
+  --grid:rgba(30,32,70,.045);
+  --shadow:0 16px 40px -18px rgba(25,28,60,.28);
+  --wash-a:rgba(106,69,255,.10); --wash-b:rgba(8,168,140,.08);
+  --node-bn-bg:#fff7f7; --node-imp-bg:#f2fcf9; --node-dec-bg:#fffdf3;
+  --edge-idle:rgba(90,96,130,.4);
+  --r:14px;
+  --font-brand:"Orbitron",sans-serif; --font-display:"Sora",system-ui,sans-serif;
+  --font-body:"IBM Plex Sans",system-ui,sans-serif; --font-mono:"IBM Plex Mono",monospace;
+}
+[data-theme="dark"]{
+  --bg:#12141c; --bg-2:#171a24; --panel:#1b1e29; --panel-2:#20232f; --line-panel:#2a2e3c;
+  --ink:#e9ebf2; --muted:#9297ab; --faint:#616780; --hair:rgba(255,255,255,.08);
+  --purple:#8b73ff; --purple-soft:#a794ff; --teal:#2fe6c8; --teal-ink:#2fe6c8;
+  --crit:#f0545c; --high:#e79246; --med:#dcb64a;
   --grid:rgba(148,152,180,.05);
   --shadow:0 24px 60px -20px rgba(0,0,0,.7);
-  --r:14px;
-  --font-brand:"Orbitron",sans-serif;
-  --font-display:"Sora",system-ui,sans-serif;
-  --font-body:"IBM Plex Sans",system-ui,sans-serif;
-  --font-mono:"IBM Plex Mono",monospace;
+  --wash-a:rgba(123,95,255,.16); --wash-b:rgba(47,230,200,.09);
+  --node-bn-bg:#231a1c; --node-imp-bg:#152522; --node-dec-bg:#231f16;
+  --edge-idle:rgba(148,152,180,.34);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);
-  font-weight:400;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:15.5px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-weight:400;line-height:1.62;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:15.5px;transition:background .35s,color .35s}
 h1,h2,h3{font-family:var(--font-display);font-weight:700;letter-spacing:-.02em;line-height:1.12;margin:0}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1200px;margin:0 auto;padding:0 28px}
-.eyebrow{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--muted);margin:0 0 18px;display:flex;align-items:center;gap:10px}
+.eyebrow{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 18px;display:flex;align-items:center;gap:10px}
 .eyebrow::before{content:"";width:22px;height:1px;background:var(--teal)}
-.eyebrow b{color:var(--teal);font-weight:500}
+.eyebrow b{color:var(--teal-ink);font-weight:500}
 
-/* atmosphere — subtle, not neon */
 .atmos{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .atmos .wash{position:absolute;inset:-20% -10% auto -10%;height:70%;
-  background:radial-gradient(60% 60% at 22% 0%,rgba(123,95,255,.14),transparent 70%),
-             radial-gradient(50% 60% at 88% 8%,rgba(47,230,200,.08),transparent 70%);
-  filter:blur(30px)}
-.atmos .grid{position:absolute;inset:0;
-  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
-  background-size:64px 64px;mask-image:radial-gradient(circle at 50% 20%,black,transparent 75%)}
+  background:radial-gradient(60% 60% at 20% 0%,var(--wash-a),transparent 70%),radial-gradient(50% 60% at 88% 6%,var(--wash-b),transparent 70%);filter:blur(28px)}
+.atmos .grid{position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(circle at 50% 15%,black,transparent 72%)}
 main{position:relative;z-index:1}
 
-/* nav */
-.nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(18px) saturate(1.2);
-  background:rgba(10,11,17,.72);border-bottom:1px solid var(--hair)}
+.nav{position:sticky;top:0;z-index:60;backdrop-filter:blur(18px) saturate(1.2);background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid var(--hair)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
 .brand{display:flex;align-items:center;gap:11px;font-family:var(--font-brand);font-weight:700;font-size:.9rem;letter-spacing:.04em}
-.brand .mark{width:22px;height:22px;border-radius:6px;background:
-  conic-gradient(from 210deg,var(--purple),var(--teal),var(--purple));
-  display:grid;place-items:center;box-shadow:0 0 0 1px rgba(255,255,255,.08) inset}
-.brand .mark::after{content:"";width:7px;height:7px;border-radius:2px;background:var(--bg)}
+.brand .mark{width:22px;height:22px;border-radius:6px;background:conic-gradient(from 210deg,var(--purple),var(--teal),var(--purple));display:grid;place-items:center}
+.brand .mark::after{content:"";width:7px;height:7px;border-radius:2px;background:var(--bg-2)}
 .brand small{color:var(--faint);font-family:var(--font-body);font-weight:400;letter-spacing:0;font-size:.82rem}
-.navlinks{display:flex;gap:30px;font-size:.86rem;color:var(--muted)}
-.navlinks a{transition:color .2s}
-.navlinks a:hover{color:var(--ink)}
-@media(max-width:840px){.navlinks{display:none}}
+.nav-right{display:flex;align-items:center;gap:26px}
+.navlinks{display:flex;gap:28px;font-size:.86rem;color:var(--muted)}
+.navlinks a{transition:color .2s}.navlinks a:hover{color:var(--ink)}
+.theme-btn{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--hair);color:var(--muted);
+  font-family:var(--font-mono);font-size:.72rem;padding:8px 12px;border-radius:9px;cursor:pointer;transition:.2s}
+.theme-btn:hover{color:var(--ink);border-color:var(--muted)}
+@media(max-width:860px){.navlinks{display:none}}
 
-/* hero */
-.hero{padding:100px 0 34px;position:relative}
-.tag{display:inline-flex;align-items:center;gap:10px;padding:7px 15px;border:1px solid var(--hair);
-  border-radius:100px;background:rgba(255,255,255,.02);font-size:.78rem;color:var(--muted);margin-bottom:30px;font-family:var(--font-mono)}
-.tag b{color:var(--teal);font-weight:500}
-.tag .pip{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(47,230,200,.14)}
+.hero{padding:96px 0 34px;position:relative}
+.tag{display:inline-flex;align-items:center;gap:10px;padding:7px 15px;border:1px solid var(--hair);border-radius:100px;background:var(--panel);font-size:.78rem;color:var(--muted);margin-bottom:30px;font-family:var(--font-mono)}
+.tag b{color:var(--teal-ink);font-weight:500}
+.tag .pip{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px color-mix(in srgb,var(--teal) 20%,transparent)}
 .hero h1{font-size:clamp(2.3rem,5.2vw,3.9rem);font-weight:800;max-width:15ch;margin-bottom:24px}
-.hero h1 .grad{color:var(--purple-soft)}
+.hero h1 .grad{color:var(--purple)}
 .hero p.lead{font-size:clamp(1.02rem,1.5vw,1.2rem);color:var(--muted);max-width:640px;margin:0 0 38px;font-weight:300}
 .cta{display:flex;gap:13px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:11px;font-family:var(--font-display);
-  font-size:.86rem;font-weight:600;cursor:pointer;border:1px solid transparent;transition:.2s;letter-spacing:-.01em}
-.btn.primary{background:var(--purple);color:#fff}
-.btn.primary:hover{background:var(--purple-soft);transform:translateY(-1px)}
-.btn.ghost{border-color:var(--hair);color:var(--ink);background:rgba(255,255,255,.02)}
-.btn.ghost:hover{border-color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 22px;border-radius:11px;font-family:var(--font-display);font-size:.86rem;font-weight:600;cursor:pointer;border:1px solid transparent;transition:.2s;letter-spacing:-.01em}
+.btn.primary{background:var(--purple);color:#fff}.btn.primary:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn.ghost{border-color:var(--hair);color:var(--ink);background:var(--panel)}.btn.ghost:hover{border-color:var(--muted)}
 
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:70px;
-  background:var(--hair);border:1px solid var(--hair);border-radius:var(--r);overflow:hidden}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:66px;background:var(--hair);border:1px solid var(--hair);border-radius:var(--r);overflow:hidden}
 @media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}}
 .stat{padding:26px 24px;background:var(--panel)}
-.stat .num{font-family:var(--font-display);font-size:2.5rem;font-weight:800;line-height:1;letter-spacing:-.03em;
-  font-variant-numeric:tabular-nums}
-.stat .num.crit{color:var(--crit)}.stat .num.tl{color:var(--teal)}.stat .num.pp{color:var(--purple-soft)}.stat .num.hi{color:var(--high)}
+.stat .num{font-family:var(--font-display);font-size:2.5rem;font-weight:800;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.stat .num.crit{color:var(--crit)}.stat .num.tl{color:var(--teal-ink)}.stat .num.pp{color:var(--purple)}.stat .num.hi{color:var(--high)}
 .stat .lbl{color:var(--muted);font-size:.82rem;margin-top:11px;line-height:1.4}
 
-/* sections */
-section{padding:92px 0;position:relative}
-.sec-head{max-width:660px;margin-bottom:46px}
+section{padding:88px 0;position:relative}
+.sec-head{max-width:660px;margin-bottom:42px}
 .sec-head h2{font-size:clamp(1.6rem,3vw,2.25rem);font-weight:700;margin-bottom:16px}
 .sec-head p{color:var(--muted);margin:0;font-weight:300}
 .sec-head p b,.hero p b{color:var(--ink);font-weight:600}
 
-/* flow */
-.flow-toolbar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px}
-.toggle{display:inline-flex;background:var(--panel);border:1px solid var(--hair);border-radius:11px;padding:4px}
-.toggle button{border:0;background:transparent;color:var(--muted);font-family:var(--font-display);font-size:.82rem;font-weight:600;
-  padding:9px 18px;border-radius:8px;cursor:pointer;transition:.22s;display:flex;align-items:center;gap:9px;letter-spacing:-.01em}
-.toggle button .dot{width:8px;height:8px;border-radius:50%;background:var(--faint);transition:.22s}
-.toggle button[data-mode="asis"] .dot{background:var(--crit)}
-.toggle button[data-mode="tobe"] .dot{background:var(--teal)}
-.toggle button.on{background:var(--panel-2);color:var(--ink);box-shadow:0 1px 0 rgba(255,255,255,.04) inset}
-.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:.76rem;color:var(--muted);font-family:var(--font-mono)}
-.legend span{display:inline-flex;align-items:center;gap:8px}
+/* toolbar */
+.flow-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.flow-block{margin-top:26px;padding-top:26px;border-top:1px solid var(--hair)}
+.flow-block:first-of-type{border-top:0;padding-top:0}
+.block-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.block-title{display:flex;align-items:center;gap:11px;font-family:var(--font-display);font-weight:700;font-size:1.08rem}
+.bt-ico{width:30px;height:30px;border-radius:8px;background:var(--panel-2);border:1px solid var(--hair);display:grid;place-items:center;color:var(--purple)}
+.bt-ico svg{width:15px;height:15px}
+.block-ctrl{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.tgroup{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.tg-div{width:1px;align-self:stretch;min-height:26px;background:var(--hair);margin:0 3px}
+@media(max-width:560px){.tg-div{display:none}}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--hair);border-radius:11px;padding:4px}
+.seg button{border:0;background:transparent;color:var(--muted);font-family:var(--font-display);font-size:.8rem;font-weight:600;padding:9px 16px;border-radius:8px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:8px;letter-spacing:-.01em}
+.seg button .dot{width:8px;height:8px;border-radius:50%;background:var(--faint);transition:.2s}
+.seg button[data-mode="asis"] .dot{background:var(--crit)}
+.seg button[data-mode="tobe"] .dot{background:var(--teal)}
+.seg button.on{background:var(--panel-2);color:var(--ink);box-shadow:0 0 0 1px var(--hair) inset}
+.seg.icon button svg{width:15px;height:15px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.74rem;color:var(--muted);font-family:var(--font-mono)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
 .legend i{width:9px;height:9px;border-radius:2px;display:inline-block}
 
-.flow-scroll{overflow-x:auto;overflow-y:hidden;border:1px solid var(--hair);border-radius:var(--r);
-  background:var(--bg-2);scrollbar-width:thin;scrollbar-color:var(--line-panel) transparent}
-.flow-scroll::-webkit-scrollbar{height:8px}
-.flow-scroll::-webkit-scrollbar-thumb{background:var(--line-panel);border-radius:10px}
-.flow-scroll::-webkit-scrollbar-track{background:transparent}
-.flow-canvas{position:relative;min-width:1180px}
+/* SEQUENCE VIEW */
+.seq{list-style:none;margin:0;padding:0;position:relative}
+.seq::before{content:"";position:absolute;left:23px;top:16px;bottom:16px;width:2px;background:linear-gradient(var(--purple),var(--teal));opacity:.35}
+.seq-item{position:relative;display:grid;grid-template-columns:48px 1fr;gap:18px;padding:9px 0;cursor:pointer}
+.seq-num{width:48px;height:48px;border-radius:12px;background:var(--panel);border:1px solid var(--hair);display:grid;place-items:center;
+  font-family:var(--font-display);font-weight:800;font-size:1.05rem;color:var(--muted);z-index:2;transition:.2s;font-variant-numeric:tabular-nums}
+.seq-item:hover .seq-num{border-color:var(--purple);color:var(--purple);transform:scale(1.06)}
+.seq-card{background:var(--panel);border:1px solid var(--hair);border-radius:12px;padding:15px 18px;transition:.2s;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.seq-item:hover .seq-card{border-color:var(--line-panel);box-shadow:var(--shadow);transform:translateX(3px)}
+.seq-item.bottleneck .seq-card{border-left:4px solid var(--sev)}
+.seq-item.improved .seq-card{border-left:4px solid var(--teal)}
+.seq-meta{display:flex;align-items:center;gap:9px;margin-bottom:7px;flex-wrap:wrap}
+.chip{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:100px;color:#fff;font-weight:500}
+.seq-type{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.seq-item.bottleneck .seq-type{color:var(--sev)}
+.seq-item.improved .seq-type{color:var(--teal-ink)}
+.seq-title{font-size:.98rem;font-weight:500;line-height:1.35}
+.seq-go{flex:0 0 auto;color:var(--faint);font-size:1.3rem;transition:.2s}
+.seq-item:hover .seq-go{color:var(--purple);transform:translateX(2px)}
+.seq-badge{flex:0 0 auto;font-family:var(--font-mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:7px;font-weight:600}
+
+/* AREAS (swimlane) VIEW */
+.lane-tools{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.mini-btn{display:inline-flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--hair);color:var(--muted);font-family:var(--font-mono);font-size:.7rem;padding:8px 13px;border-radius:9px;cursor:pointer;transition:.2s}
+.mini-btn:hover{color:var(--ink);border-color:var(--muted)}
+.mini-btn.on{background:var(--purple);border-color:var(--purple);color:#fff}
+.flow-scroll{overflow:auto;border:1px solid var(--hair);border-radius:var(--r);background:var(--bg-2);scrollbar-width:thin}
+.flow-scroll::-webkit-scrollbar{height:8px;width:8px}.flow-scroll::-webkit-scrollbar-thumb{background:var(--line-panel);border-radius:10px}
+.flow-canvas{position:relative;min-width:1160px;transform-origin:top left}
 #edges{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:visible}
-.lane-row{display:grid;grid-template-columns:126px 1fr;align-items:center;position:relative;z-index:2;min-height:78px}
-.lane-row.alt{background:rgba(255,255,255,.012)}
-.lane-row+.lane-row .lane-track{border-top:1px solid rgba(255,255,255,.035)}
-.lane-name{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;color:var(--faint);text-transform:uppercase;
-  padding:0 16px;text-align:right;height:100%;display:flex;align-items:center;justify-content:flex-end;
-  border-right:1px solid var(--hair);position:sticky;left:0;background:var(--bg-2);z-index:4}
+.lane-row{display:grid;grid-template-columns:118px 1fr;align-items:center;position:relative;z-index:2;min-height:76px}
+.lane-row.alt{background:color-mix(in srgb,var(--ink) 3%,transparent)}
+.lane-row+.lane-row .lane-track{border-top:1px solid var(--hair)}
+.lane-name{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.05em;color:var(--faint);text-transform:uppercase;padding:0 14px;text-align:right;height:100%;display:flex;align-items:center;justify-content:flex-end;gap:8px;border-right:1px solid var(--hair);position:sticky;left:0;background:var(--bg-2);z-index:4}
+.lane-name .ldot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
 .lane-track{position:relative;height:100%}
-.node{position:absolute;top:50%;transform:translateY(-50%);width:142px;padding:10px 12px;border-radius:10px;
-  background:var(--panel);border:1px solid var(--line-panel);font-size:.72rem;line-height:1.34;cursor:pointer;
-  transition:transform .18s,border-color .18s,box-shadow .18s;z-index:3;color:var(--ink)}
-.node:hover{transform:translateY(-50%) translateZ(0) scale(1.035);border-color:var(--purple);box-shadow:var(--shadow);z-index:6}
-.node .nt{font-family:var(--font-mono);font-size:.56rem;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);
-  margin-bottom:5px;display:block}
-.node.start,.node.end{border-radius:30px;text-align:center;background:var(--panel-2);border-color:var(--hair)}
-.node.decision{background:linear-gradient(180deg,rgba(217,180,69,.08),var(--panel));border-color:rgba(217,180,69,.28)}
+.node{position:absolute;top:50%;transform:translateY(-50%);width:140px;padding:10px 12px;border-radius:10px;background:var(--panel);border:1px solid var(--line-panel);font-size:.72rem;line-height:1.34;cursor:pointer;transition:transform .16s,border-color .16s,box-shadow .16s;z-index:3;color:var(--ink)}
+.node:hover{transform:translateY(-50%) scale(1.04);border-color:var(--purple);box-shadow:var(--shadow);z-index:6}
+.node .nn{position:absolute;top:-8px;left:-8px;width:20px;height:20px;border-radius:6px;background:var(--purple);color:#fff;font-family:var(--font-display);font-size:.62rem;font-weight:700;display:grid;place-items:center}
+.node .nt{font-family:var(--font-mono);font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;display:block}
+.node.start,.node.end{border-radius:28px;text-align:center;background:var(--panel-2)}
+.node.decision{background:var(--node-dec-bg);border-color:color-mix(in srgb,var(--med) 45%,var(--line-panel))}
 .node.decision .nt{color:var(--med)}
-.node.bottleneck{border-left:3px solid var(--sev);padding-left:11px}
+.node.bottleneck{border-left:3px solid var(--sev);background:var(--node-bn-bg)}
 .node.bottleneck .nt{color:var(--sev)}
-.node.bottleneck::after{content:"";position:absolute;top:9px;right:9px;width:6px;height:6px;border-radius:50%;
-  background:var(--sev);box-shadow:0 0 0 3px color-mix(in srgb,var(--sev) 22%,transparent)}
-.node.improved{border-left:3px solid var(--teal);padding-left:11px}
-.node.improved .nt{color:var(--teal)}
-.node.improved::after{content:"✓";position:absolute;top:7px;right:9px;font-size:.66rem;color:var(--teal);font-weight:700}
-.flow-hint{text-align:center;color:var(--faint);font-size:.76rem;margin-top:16px;font-family:var(--font-mono)}
+.node.bottleneck .nn{background:var(--sev)}
+.node.bottleneck::after{content:"";position:absolute;top:8px;right:8px;width:6px;height:6px;border-radius:50%;background:var(--sev);box-shadow:0 0 0 3px color-mix(in srgb,var(--sev) 22%,transparent)}
+.node.improved{border-left:3px solid var(--teal);background:var(--node-imp-bg)}
+.node.improved .nt{color:var(--teal-ink)}.node.improved .nn{background:var(--teal-ink)}
+.node.improved::after{content:"✓";position:absolute;top:6px;right:8px;font-size:.66rem;color:var(--teal-ink);font-weight:700}
+.flow-hint{text-align:center;color:var(--faint);font-size:.75rem;margin-top:14px;font-family:var(--font-mono)}
+.hidden{display:none!important}
 
 /* drawer */
-.drawer{position:fixed;top:0;right:0;height:100%;width:min(440px,94vw);background:var(--panel);
-  border-left:1px solid var(--hair);z-index:100;transform:translateX(100%);transition:transform .38s cubic-bezier(.5,0,.15,1);
-  box-shadow:var(--shadow);overflow-y:auto;padding:36px 30px}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(440px,94vw);background:var(--panel);border-left:1px solid var(--hair);z-index:100;transform:translateX(100%);transition:transform .36s cubic-bezier(.5,0,.15,1);box-shadow:var(--shadow);overflow-y:auto;padding:36px 30px}
 .drawer.open{transform:translateX(0)}
-.drawer .close{position:absolute;top:22px;right:24px;background:rgba(255,255,255,.03);border:1px solid var(--hair);
-  color:var(--muted);width:34px;height:34px;border-radius:9px;cursor:pointer;font-size:1rem;transition:.2s}
+.drawer .close{position:absolute;top:22px;right:24px;background:var(--panel-2);border:1px solid var(--hair);color:var(--muted);width:34px;height:34px;border-radius:9px;cursor:pointer;font-size:1rem;transition:.2s}
 .drawer .close:hover{color:var(--ink);border-color:var(--muted)}
-.drawer .sev-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 13px;border-radius:7px;font-family:var(--font-mono);
-  font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px}
+.drawer .sev-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 13px;border-radius:7px;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px}
 .drawer .sev-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
 .drawer h3{font-size:1.3rem;margin-bottom:8px;line-height:1.2;font-weight:700}
-.drawer .lane-chip{font-size:.76rem;color:var(--faint);margin-bottom:26px;font-family:var(--font-mono)}
-.drawer .block{margin-bottom:16px;padding:18px;border-radius:11px;background:var(--bg-2);border:1px solid var(--hair)}
+.drawer .lane-chip{font-size:.76rem;color:var(--faint);margin-bottom:24px;font-family:var(--font-mono)}
+.drawer .block{margin-bottom:15px;padding:18px;border-radius:11px;background:var(--bg-2);border:1px solid var(--hair)}
 .drawer .block h4{margin:0 0 9px;font-family:var(--font-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .drawer .block p{margin:0;font-size:.92rem;color:var(--ink);font-weight:300}
-.drawer .block.ia{border-color:rgba(123,95,255,.32);background:linear-gradient(180deg,rgba(123,95,255,.06),var(--bg-2))}
-.drawer .block.ia h4{color:var(--purple-soft)}
-.overlay{position:fixed;inset:0;background:rgba(6,7,12,.62);backdrop-filter:blur(2px);z-index:99;opacity:0;pointer-events:none;transition:.3s}
+.drawer .block.ia{border-color:color-mix(in srgb,var(--purple) 35%,transparent);background:color-mix(in srgb,var(--purple) 6%,var(--bg-2))}
+.drawer .block.ia h4{color:var(--purple)}
+.overlay{position:fixed;inset:0;background:rgba(10,12,22,.5);backdrop-filter:blur(2px);z-index:99;opacity:0;pointer-events:none;transition:.3s}
 .overlay.show{opacity:1;pointer-events:auto}
 
 /* cards */
-.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:30px}
-.filters button{background:var(--panel);border:1px solid var(--hair);color:var(--muted);font-family:var(--font-body);
-  font-size:.82rem;font-weight:500;padding:8px 16px;border-radius:100px;cursor:pointer;transition:.2s}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:28px}
+.filters button{background:var(--panel);border:1px solid var(--hair);color:var(--muted);font-family:var(--font-body);font-size:.82rem;font-weight:500;padding:8px 16px;border-radius:100px;cursor:pointer;transition:.2s}
 .filters button.active{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 .filters button:hover:not(.active){border-color:var(--muted);color:var(--ink)}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
-.card{border:1px solid var(--hair);border-radius:var(--r);padding:24px;background:var(--panel);
-  position:relative;overflow:hidden;transition:.25s;cursor:pointer}
+.card{border:1px solid var(--hair);border-radius:var(--r);padding:24px;background:var(--panel);position:relative;overflow:hidden;transition:.22s;cursor:pointer}
 .card::before{content:"";position:absolute;left:0;top:0;height:100%;width:3px;background:var(--sev)}
 .card:hover{transform:translateY(-3px);border-color:var(--line-panel);box-shadow:var(--shadow)}
-.card .rank{font-family:var(--font-display);font-size:2.2rem;font-weight:800;color:var(--sev);opacity:.16;position:absolute;top:16px;right:20px;line-height:1;font-variant-numeric:tabular-nums}
+.card .rank{font-family:var(--font-display);font-size:2.2rem;font-weight:800;color:var(--sev);opacity:.18;position:absolute;top:16px;right:20px;line-height:1;font-variant-numeric:tabular-nums}
 .card .sev{font-family:var(--font-mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sev)}
 .card h3{font-size:1.06rem;margin:10px 0 11px;padding-right:44px;line-height:1.28;font-weight:600}
 .card .desc{font-size:.88rem;color:var(--muted);margin:0 0 16px;font-weight:300}
 .card .fix{font-size:.86rem;color:var(--ink);padding-top:15px;border-top:1px solid var(--hair);font-weight:300}
-.card .fix b{color:var(--teal);font-family:var(--font-mono);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:6px}
+.card .fix b{color:var(--teal-ink);font-family:var(--font-mono);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:6px}
 .card.hide{display:none}
 
 /* matrix */
-.matrix-wrap{display:grid;grid-template-columns:1.25fr .9fr;gap:38px;align-items:center}
+.matrix-wrap{display:grid;grid-template-columns:1.25fr .9fr;gap:36px;align-items:center}
 @media(max-width:900px){.matrix-wrap{grid-template-columns:1fr}}
 .matrix{position:relative;aspect-ratio:1/.82;border:1px solid var(--hair);border-radius:var(--r);background:var(--bg-2);overflow:hidden}
 .quad{position:absolute;width:50%;height:50%;padding:15px;font-family:var(--font-mono);font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
-.q-tl{top:0;left:0}.q-tr{top:0;right:0;text-align:right}.q-bl{bottom:0;left:0}.q-br{bottom:0;right:0;text-align:right}
-.q-tl{background:rgba(47,230,200,.035)}.q-tr{background:rgba(123,95,255,.04)}
+.q-tl{top:0;left:0;background:color-mix(in srgb,var(--teal) 6%,transparent)}.q-tr{top:0;right:0;text-align:right;background:color-mix(in srgb,var(--purple) 6%,transparent)}
+.q-bl{bottom:0;left:0}.q-br{bottom:0;right:0;text-align:right}
 .axis-x{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:.64rem;color:var(--faint);font-family:var(--font-mono)}
 .axis-y{position:absolute;left:8px;top:50%;transform:translateY(-50%) rotate(-90deg);font-size:.64rem;color:var(--faint);font-family:var(--font-mono)}
 .mid-h{position:absolute;top:50%;left:0;width:100%;border-top:1px dashed var(--hair)}
 .mid-v{position:absolute;left:50%;top:0;height:100%;border-left:1px dashed var(--hair)}
-.plot{position:absolute;width:14px;height:14px;border-radius:50%;transform:translate(-50%,50%);cursor:pointer;
-  border:2px solid var(--bg-2);transition:.2s;z-index:3}
-.plot:hover{transform:translate(-50%,50%) scale(1.45);z-index:8}
-.plot .tip{position:absolute;bottom:150%;left:50%;transform:translateX(-50%);background:var(--panel-2);border:1px solid var(--hair);
-  padding:6px 11px;border-radius:7px;font-family:var(--font-body);font-size:.74rem;white-space:nowrap;opacity:0;pointer-events:none;transition:.18s;color:var(--ink);z-index:10;font-weight:500}
+.plot{position:absolute;width:15px;height:15px;border-radius:50%;transform:translate(-50%,50%);cursor:pointer;border:2px solid var(--bg-2);transition:.2s;z-index:3}
+.plot:hover{transform:translate(-50%,50%) scale(1.4);z-index:8}
+.plot .tip{position:absolute;bottom:150%;left:50%;transform:translateX(-50%);background:var(--panel-2);border:1px solid var(--hair);padding:6px 11px;border-radius:7px;font-family:var(--font-body);font-size:.74rem;white-space:nowrap;opacity:0;pointer-events:none;transition:.18s;color:var(--ink);z-index:10;font-weight:500;box-shadow:var(--shadow)}
 .plot:hover .tip{opacity:1}
 .matrix-legend .mi{display:flex;gap:13px;align-items:flex-start;margin-bottom:20px}
 .matrix-legend .mi i{width:11px;height:11px;border-radius:50%;flex:0 0 auto;margin-top:6px}
@@ -203,12 +224,11 @@ section{padding:92px 0;position:relative}
 /* kpi */
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:16px}
 .kpi{border:1px solid var(--hair);border-radius:var(--r);padding:24px;background:var(--panel)}
-.kpi .kt{font-size:.86rem;color:var(--muted);margin-bottom:16px;min-height:40px;font-weight:400}
+.kpi .kt{font-size:.86rem;color:var(--muted);margin-bottom:16px;min-height:40px}
 .kpi .kv{font-family:var(--font-display);font-weight:800;font-size:1.75rem;display:flex;align-items:baseline;gap:9px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .kpi .kv .from{color:var(--faint);font-size:.95rem;text-decoration:line-through;font-weight:500}
-.kpi .kv .arrow{color:var(--faint);font-size:1rem}
-.kpi .kv .to{color:var(--teal)}
-.kpi .bar{height:5px;border-radius:10px;background:var(--bg-2);margin-top:18px;overflow:hidden}
+.kpi .kv .arrow{color:var(--faint);font-size:1rem}.kpi .kv .to{color:var(--teal-ink)}
+.kpi .bar{height:6px;border-radius:10px;background:var(--bg);margin-top:18px;overflow:hidden}
 .kpi .bar i{display:block;height:100%;width:0;border-radius:10px;background:linear-gradient(90deg,var(--purple),var(--teal));transition:width 1.2s cubic-bezier(.4,0,.1,1)}
 .kpi .goal{font-size:.72rem;color:var(--faint);margin-top:11px;font-family:var(--font-mono)}
 .note-meta{font-size:.78rem;color:var(--faint);margin-top:24px;font-weight:300}
@@ -224,13 +244,11 @@ section{padding:92px 0;position:relative}
 .phase li{padding:11px 0 11px 24px;position:relative;font-size:.88rem;color:var(--muted);border-top:1px solid var(--hair);font-weight:300}
 .phase li:first-child{border-top:0}
 .phase li::before{content:"";position:absolute;left:0;top:17px;width:7px;height:7px;border-radius:2px;background:var(--accent)}
-.phase.p1{--accent:var(--purple-soft)}.phase.p2{--accent:var(--teal)}.phase.p3{--accent:var(--high)}
+.phase.p1{--accent:var(--purple)}.phase.p2{--accent:var(--teal-ink)}.phase.p3{--accent:var(--high)}
 
-/* footer */
 footer{border-top:1px solid var(--hair);padding:44px 0;margin-top:30px;color:var(--faint);font-size:.82rem}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
-
-.reveal{opacity:0;transform:translateY(22px);transition:.65s cubic-bezier(.2,.7,.2,1)}
+.reveal{opacity:0;transform:translateY(22px);transition:.6s cubic-bezier(.2,.7,.2,1)}
 .reveal.in{opacity:1;transform:none}
 </style>
 </head>
@@ -239,8 +257,9 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-
 
 <nav class="nav"><div class="wrap">
   <div class="brand"><span class="mark"></span>VERONIX<small>Peru Tractor</small></div>
-  <div class="navlinks">
-    <a href="#flujo">Flujo</a><a href="#cuellos">Cuellos</a><a href="#matriz">Prioridad</a><a href="#kpis">KPIs</a><a href="#ruta">Hoja de ruta</a>
+  <div class="nav-right">
+    <div class="navlinks"><a href="#flujo">Flujo</a><a href="#cuellos">Cuellos</a><a href="#matriz">Prioridad</a><a href="#kpis">KPIs</a><a href="#ruta">Ruta</a></div>
+    <button class="theme-btn" id="themeBtn"><span id="themeIcon">🌙</span><span id="themeLbl">Oscuro</span></button>
   </div>
 </div></nav>
 
@@ -249,10 +268,7 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-
   <div class="tag"><span class="pip"></span>Repuestos CAT/CTP · Proceso comercial-logístico · <b>Diagnóstico</b></div>
   <h1>Del pedido a la entrega: <span class="grad">dónde se pierde el tiempo</span> y cómo recuperarlo.</h1>
   <p class="lead">Análisis del flujo operativo actual de Peru Tractor. Reconstruimos el proceso completo, señalamos los cuellos de botella y proponemos un flujo optimizado — navegable, paso a paso.</p>
-  <div class="cta">
-    <a href="#flujo" class="btn primary">Explorar el flujo</a>
-    <a href="#cuellos" class="btn ghost">Ver los 7 cuellos</a>
-  </div>
+  <div class="cta"><a href="#flujo" class="btn primary">Explorar el flujo</a><a href="#cuellos" class="btn ghost">Ver los 7 cuellos</a></div>
   <div class="stats">
     <div class="stat reveal"><div class="num pp" data-count="69">0</div><div class="lbl">pasos mapeados en el proceso</div></div>
     <div class="stat reveal"><div class="num tl" data-count="8">0</div><div class="lbl">áreas involucradas (carriles)</div></div>
@@ -265,53 +281,59 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-
   <div class="sec-head reveal">
     <p class="eyebrow"><b>01</b> Mapa del proceso</p>
     <h2>El flujo, carril por carril</h2>
-    <p>Alterna entre la operación <b>actual (AS-IS)</b> y la <b>propuesta (TO-BE)</b>. Haz clic en cualquier paso para ver el detalle y la recomendación de IA.</p>
+    <p>Explóralo <b>por áreas</b> (diagrama de carriles) y <b>en secuencia</b> (paso a paso). Cada vista tiene su propio interruptor entre la operación <b>actual</b> y la <b>propuesta</b>; haz clic en cualquier paso.</p>
   </div>
-  <div class="flow-toolbar reveal">
-    <div class="toggle" id="toggle">
-      <button class="on" data-mode="asis"><span class="dot"></span>Actual · AS-IS</button>
-      <button data-mode="tobe"><span class="dot"></span>Optimizado · TO-BE</button>
+
+  <!-- BLOQUE ÁREAS -->
+  <div class="flow-block reveal">
+    <div class="block-bar">
+      <div class="block-title"><span class="bt-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="12" height="3.5" rx="1"/><rect x="2" y="6.5" width="12" height="3" rx="1"/><rect x="2" y="10.5" width="12" height="3.5" rx="1"/></svg></span>Vista por áreas</div>
+      <div class="block-ctrl">
+        <div class="seg" data-toggle="lane">
+          <button class="on" data-mode="asis"><span class="dot"></span>Actual · AS-IS</button>
+          <button data-mode="tobe"><span class="dot"></span>Optimizado · TO-BE</button>
+        </div>
+        <div class="legend">
+          <span><i style="background:var(--purple)"></i>Proceso</span><span><i style="background:var(--med)"></i>Decisión</span><span><i style="background:var(--crit)"></i>Cuello</span><span><i style="background:var(--teal)"></i>Mejora</span>
+        </div>
+      </div>
     </div>
-    <div class="legend">
-      <span><i style="background:var(--purple)"></i>Proceso</span>
-      <span><i style="background:var(--med)"></i>Decisión</span>
-      <span><i style="background:var(--crit)"></i>Cuello</span>
-      <span><i style="background:var(--teal)"></i>Mejora</span>
+    <div class="lane-tools">
+      <button class="mini-btn on" id="fitBtn">⤢ Ajustar a pantalla</button>
+      <span style="color:var(--faint);font-family:var(--font-mono);font-size:.7rem">Desliza para recorrer · toca un nodo</span>
     </div>
+    <div class="flow-scroll" id="flowScroll"><div class="flow-canvas" id="canvas"><svg id="edges"></svg></div></div>
   </div>
-  <div class="flow-scroll reveal">
-    <div class="flow-canvas" id="canvas"><svg id="edges"></svg></div>
+
+  <!-- BLOQUE SECUENCIA -->
+  <div class="flow-block reveal">
+    <div class="block-bar">
+      <div class="block-title"><span class="bt-ico"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 4h2M2 8h2M2 12h2M6 4h8M6 8h8M6 12h8"/></svg></span>Vista en secuencia</div>
+      <div class="block-ctrl">
+        <div class="seg" data-toggle="seq">
+          <button class="on" data-mode="asis"><span class="dot"></span>Actual · AS-IS</button>
+          <button data-mode="tobe"><span class="dot"></span>Optimizado · TO-BE</button>
+        </div>
+      </div>
+    </div>
+    <ol class="seq" id="seq"></ol>
   </div>
-  <p class="flow-hint">Desliza horizontalmente para recorrer el proceso · toca un nodo para el detalle</p>
 </div></section>
 
 <section id="cuellos"><div class="wrap">
-  <div class="sec-head reveal">
-    <p class="eyebrow"><b>02</b> Diagnóstico</p>
-    <h2>Los 7 cuellos de botella</h2>
-    <p>Ordenados por severidad. El más grave lo advierte el propio archivo original de la empresa.</p>
-  </div>
+  <div class="sec-head reveal"><p class="eyebrow"><b>02</b> Diagnóstico</p><h2>Los 7 cuellos de botella</h2><p>Ordenados por severidad. El más grave lo advierte el propio archivo original de la empresa.</p></div>
   <div class="filters reveal" id="filters">
-    <button class="active" data-f="all">Todos</button>
-    <button data-f="crit">Crítico</button>
-    <button data-f="high">Alto</button>
-    <button data-f="med">Medio</button>
+    <button class="active" data-f="all">Todos</button><button data-f="crit">Crítico</button><button data-f="high">Alto</button><button data-f="med">Medio</button>
   </div>
   <div class="cards" id="cards"></div>
 </div></section>
 
 <section id="matriz"><div class="wrap">
-  <div class="sec-head reveal">
-    <p class="eyebrow"><b>03</b> Priorización</p>
-    <h2>Qué atacar primero</h2>
-    <p>Cada iniciativa ubicada según su <b>impacto</b> y el <b>esfuerzo</b> de implementarla. Pasa el cursor sobre cada punto.</p>
-  </div>
+  <div class="sec-head reveal"><p class="eyebrow"><b>03</b> Priorización</p><h2>Qué atacar primero</h2><p>Cada iniciativa ubicada según su <b>impacto</b> y el <b>esfuerzo</b> de implementarla. Pasa el cursor sobre cada punto.</p></div>
   <div class="matrix-wrap reveal">
     <div class="matrix" id="matrix">
-      <div class="quad q-tl">Quick wins</div><div class="quad q-tr">Grandes apuestas</div>
-      <div class="quad q-bl">Bajo valor</div><div class="quad q-br">Reevaluar</div>
-      <div class="mid-h"></div><div class="mid-v"></div>
-      <div class="axis-x">Esfuerzo →</div><div class="axis-y">Impacto →</div>
+      <div class="quad q-tl">Quick wins</div><div class="quad q-tr">Grandes apuestas</div><div class="quad q-bl">Bajo valor</div><div class="quad q-br">Reevaluar</div>
+      <div class="mid-h"></div><div class="mid-v"></div><div class="axis-x">Esfuerzo →</div><div class="axis-y">Impacto →</div>
     </div>
     <div class="matrix-legend">
       <div class="mi"><i style="background:var(--teal)"></i><div><b>Quick wins · 0–30 días</b><span>Alto impacto, poco esfuerzo. Empezar aquí: checkpoint con sello, radios, reportes diarios, zona de staging.</span></div></div>
@@ -322,92 +344,47 @@ footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-
 </div></section>
 
 <section id="kpis"><div class="wrap">
-  <div class="sec-head reveal">
-    <p class="eyebrow"><b>04</b> Cómo se mide el éxito</p>
-    <h2>Indicadores objetivo</h2>
-    <p>Metas propuestas para el flujo optimizado. Hoy la mayoría no se mide: ese es, en sí mismo, uno de los hallazgos.</p>
-  </div>
+  <div class="sec-head reveal"><p class="eyebrow"><b>04</b> Cómo se mide el éxito</p><h2>Indicadores objetivo</h2><p>Metas propuestas para el flujo optimizado. Hoy la mayoría no se mide: ese es, en sí mismo, uno de los hallazgos.</p></div>
   <div class="kpi-grid" id="kpis-grid"></div>
   <p class="note-meta">* Metas de referencia propuestas por el análisis, a calibrar con la línea base real una vez se active la trazabilidad (escaneo + dashboard).</p>
 </div></section>
 
 <section id="ruta"><div class="wrap">
-  <div class="sec-head reveal">
-    <p class="eyebrow"><b>05</b> Plan de acción</p>
-    <h2>Hoja de ruta por fases</h2>
-    <p>De lo que se puede hacer ya, a lo estructural. Muchas de estas iniciativas ya estaban identificadas en la Hoja1 del archivo: aquí se validan y se priorizan.</p>
-  </div>
+  <div class="sec-head reveal"><p class="eyebrow"><b>05</b> Plan de acción</p><h2>Hoja de ruta por fases</h2><p>De lo que se puede hacer ya, a lo estructural. Muchas de estas iniciativas ya estaban en la Hoja1 del archivo: aquí se validan y se priorizan.</p></div>
   <div class="road">
-    <div class="phase p1 reveal"><span class="ph-n">Fase 1</span><h3>Quick wins</h3><div class="days">0 – 30 días</div>
-      <ul>
-        <li>Checkpoint de calidad con sello/escaneo, desacoplado de la hora de salida</li>
-        <li>Corte de despacho fijo (ej. 3:00 p.m. same-day)</li>
-        <li>Radios en tiempo real con política de uso</li>
-        <li>Reportes diarios de guías, despachos y devoluciones</li>
-        <li>Zona única de staging rotulada por destino</li>
-      </ul></div>
-    <div class="phase p2 reveal"><span class="ph-n">Fase 2</span><h3>Optimización</h3><div class="days">30 – 90 días</div>
-      <ul>
-        <li>Slotting ABC: alta rotación al 1.er piso / patio</li>
-        <li>Wave picking por ruta y destino</li>
-        <li>Doble corte semanal de importación + SLA de lead time</li>
-        <li>Film y materiales en el punto de uso (despacho)</li>
-        <li>Refuerzo de dotación: almacén ×2, motorizado, apoyo AQP</li>
-      </ul></div>
-    <div class="phase p3 reveal"><span class="ph-n">Fase 3</span><h3>Estructural</h3><div class="days">90+ días</div>
-      <ul>
-        <li>Escaneo QR de extremo a extremo + dashboard diario</li>
-        <li>Crédito pre-aprobado y facturación en paralelo</li>
-        <li>Ampliación de la zona de despacho y racks</li>
-        <li>Backup del rol único de despacho (evitar punto de falla)</li>
-        <li>Integración de trazabilidad con SAP / Proficont</li>
-      </ul></div>
+    <div class="phase p1 reveal"><span class="ph-n">Fase 1</span><h3>Quick wins</h3><div class="days">0 – 30 días</div><ul><li>Checkpoint de calidad con sello/escaneo, desacoplado de la hora de salida</li><li>Corte de despacho fijo (ej. 3:00 p.m. same-day)</li><li>Radios en tiempo real con política de uso</li><li>Reportes diarios de guías, despachos y devoluciones</li><li>Zona única de staging rotulada por destino</li></ul></div>
+    <div class="phase p2 reveal"><span class="ph-n">Fase 2</span><h3>Optimización</h3><div class="days">30 – 90 días</div><ul><li>Slotting ABC: alta rotación al 1.er piso / patio</li><li>Wave picking por ruta y destino</li><li>Doble corte semanal de importación + SLA de lead time</li><li>Film y materiales en el punto de uso (despacho)</li><li>Refuerzo de dotación: almacén ×2, motorizado, apoyo AQP</li></ul></div>
+    <div class="phase p3 reveal"><span class="ph-n">Fase 3</span><h3>Estructural</h3><div class="days">90+ días</div><ul><li>Escaneo QR de extremo a extremo + dashboard diario</li><li>Crédito pre-aprobado y facturación en paralelo</li><li>Ampliación de la zona de despacho y racks</li><li>Backup del rol único de despacho (evitar punto de falla)</li><li>Integración de trazabilidad con SAP / Proficont</li></ul></div>
   </div>
 </div></section>
 </main>
 
-<footer><div class="wrap">
-  <div class="brand"><span class="mark"></span>VERONIX</div>
-  <div>Análisis de flujo comercial-logístico · Peru Tractor · Repuestos CAT/CTP · 2026</div>
-</div></footer>
+<footer><div class="wrap"><div class="brand"><span class="mark"></span>VERONIX</div><div>Análisis de flujo comercial-logístico · Peru Tractor · Repuestos CAT/CTP · 2026</div></div></footer>
 
 <div class="overlay" id="overlay"></div>
 <aside class="drawer" id="drawer"><button class="close" id="drawerClose">✕</button><div id="drawerBody"></div></aside>
 
 <script>
 const LANES=["Cliente","Ventas","Logística","Importaciones","Contabilidad","Almacén","Despacho"];
+const LANE_COLORS=["#6a45ff","#08a88c","#e0902a","#e0568f","#3d7bf0","#9257ff","#ef5350"];
 const NODES=[
  {id:"n1",stage:0,lane:0,type:"start",t:"Cliente solicita cotización"},
  {id:"n2",stage:1,lane:1,type:"process",t:"Verifica stock en Proficont / SAP"},
  {id:"n3",stage:2,lane:1,type:"decision",t:"¿Stock completo?"},
- {id:"n4",stage:3,lane:3,type:"process",asis:{bn:"high",t:"Programa importación · corte único los miércoles"},tobe:{imp:true,t:"Doble corte semanal + SLA de lead time"},
-   desc:"El abastecimiento de faltantes por importación tiene un único corte semanal. Perder el miércoles significa esperar toda una semana.",
-   fix:"Habilitar un segundo corte semanal y comunicar un SLA de lead time a Ventas y al cliente para dar previsibilidad."},
+ {id:"n4",stage:3,lane:3,type:"process",asis:{bn:"high",t:"Programa importación · corte único los miércoles"},tobe:{imp:true,t:"Doble corte semanal + SLA de lead time"},desc:"El abastecimiento de faltantes por importación tiene un único corte semanal. Perder el miércoles significa esperar toda una semana.",fix:"Habilitar un segundo corte semanal y comunicar un SLA de lead time a Ventas y al cliente para dar previsibilidad."},
  {id:"n5",stage:4,lane:1,type:"process",t:"Se emite cotización · Cliente confirma pedido"},
- {id:"n6",stage:5,lane:4,type:"process",asis:{bn:"med",t:"Valida crédito → genera factura (en serie)"},tobe:{imp:true,t:"Crédito pre-aprobado · facturación en paralelo"},
-   desc:"La validación de línea de crédito y la facturación ocurren en serie dentro del camino crítico, alargando el tiempo total antes de preparar el pedido.",
-   fix:"Pre-aprobar líneas de crédito por cliente y facturar en paralelo a la preparación, no antes de ella."},
- {id:"n7",stage:6,lane:5,type:"process",asis:{bn:"high",t:"Verifica ubicación multipiso en SAP (1º/2º/3º/patio)"},tobe:{imp:true,t:"Slotting ABC · alta rotación en 1.er piso/patio"},
-   desc:"Los repuestos están dispersos en tres pisos y patio. Localizar cada ítem obliga a recorridos verticales antes siquiera de tomar el producto.",
-   fix:"Aplicar slotting ABC: reubicar los ítems de mayor rotación al 1.er piso y patio para minimizar el uso del ascensor."},
- {id:"n8",stage:7,lane:5,type:"process",asis:{bn:"high",t:"Picking en 2.º/3.er piso · ascensor recurso único"},tobe:{imp:true,t:"Wave picking por ruta · menos movimientos verticales"},
-   desc:"El picking en pisos superiores depende de un ascensor compartido: se forman colas y se acumula trabajo en curso.",
-   fix:"Organizar wave picking por ruta/destino y coordinar las bajadas por olas para descongestionar el ascensor."},
- {id:"n9",stage:8,lane:5,type:"process",asis:{bn:"med",t:"Envía correo al almacenero del 1.er piso"},tobe:{imp:true,t:"Coordinación por radio en tiempo real"},
-   desc:"La coordinación entre pisos se hace por correo electrónico, introduciendo latencia en cada traspaso.",
-   fix:"Dotar de radios con una política de uso clara (iniciativa ya registrada en la Hoja1 del archivo)."},
- {id:"n10",stage:9,lane:5,type:"process",asis:{bn:"high",t:"Recibe y consolida (stock + locales + Arriola/Huachipa)"},tobe:{imp:true,t:"Zona única de staging rotulada por destino"},
-   desc:"La consolidación ocurre en varios puntos físicos, generando doble manipulación y pedidos incompletos a destiempo.",
-   fix:"Definir una única zona de staging rotulada por destino (provincia / local / oficina) donde converge todo."},
+ {id:"n6",stage:5,lane:4,type:"process",asis:{bn:"med",t:"Valida crédito → genera factura (en serie)"},tobe:{imp:true,t:"Crédito pre-aprobado · facturación en paralelo"},desc:"La validación de crédito y la facturación ocurren en serie dentro del camino crítico, alargando el tiempo antes de preparar el pedido.",fix:"Pre-aprobar líneas de crédito por cliente y facturar en paralelo a la preparación, no antes de ella."},
+ {id:"n7",stage:6,lane:5,type:"process",asis:{bn:"high",t:"Verifica ubicación multipiso en SAP (1º/2º/3º/patio)"},tobe:{imp:true,t:"Slotting ABC · alta rotación en 1.er piso/patio"},desc:"Los repuestos están dispersos en tres pisos y patio. Localizar cada ítem obliga a recorridos verticales antes de tomar el producto.",fix:"Aplicar slotting ABC: reubicar los ítems de mayor rotación al 1.er piso y patio para minimizar el uso del ascensor."},
+ {id:"n8",stage:7,lane:5,type:"process",asis:{bn:"high",t:"Picking en 2.º/3.er piso · ascensor recurso único"},tobe:{imp:true,t:"Wave picking por ruta · menos movimientos verticales"},desc:"El picking en pisos superiores depende de un ascensor compartido: se forman colas y se acumula trabajo en curso.",fix:"Organizar wave picking por ruta/destino y coordinar las bajadas por olas para descongestionar el ascensor."},
+ {id:"n9",stage:8,lane:5,type:"process",asis:{bn:"med",t:"Envía correo al almacenero del 1.er piso"},tobe:{imp:true,t:"Coordinación por radio en tiempo real"},desc:"La coordinación entre pisos se hace por correo electrónico, introduciendo latencia en cada traspaso.",fix:"Dotar de radios con una política de uso clara (iniciativa ya registrada en la Hoja1 del archivo)."},
+ {id:"n10",stage:9,lane:5,type:"process",asis:{bn:"high",t:"Recibe y consolida (stock + locales + Arriola/Huachipa)"},tobe:{imp:true,t:"Zona única de staging rotulada por destino"},desc:"La consolidación ocurre en varios puntos físicos, generando doble manipulación y pedidos incompletos a destiempo.",fix:"Definir una única zona de staging rotulada por destino (provincia / local / oficina) donde converge todo."},
  {id:"n11",stage:10,lane:6,type:"process",t:"Embalaje en zona 1 (3 mesas en paralelo)"},
- {id:"n12",stage:11,lane:6,type:"process",asis:{bn:"crit",t:"Verifica ítems — cerca de la salida (5:15 pm); a veces no se ejecuta"},tobe:{imp:true,t:"Checkpoint obligatorio con sello/escaneo, desacoplado de la hora"},
-   desc:"CUELLO CRÍTICO. El propio archivo advierte que este control se hace cerca de la hora de salida y \"algunas veces no lo ejecutan\". Es la causa raíz de despachos errados, devoluciones y reprocesos.",
-   fix:"Convertirlo en checkpoint obligatorio con sello/escaneo (doble control), anclado a un corte de despacho fijo y no a la hora de salida."},
+ {id:"n12",stage:11,lane:6,type:"process",asis:{bn:"crit",t:"Verifica ítems — cerca de la salida (5:15 pm); a veces no se ejecuta"},tobe:{imp:true,t:"Checkpoint obligatorio con sello/escaneo, desacoplado de la hora"},desc:"CUELLO CRÍTICO. El propio archivo advierte que este control se hace cerca de la hora de salida y \"algunas veces no lo ejecutan\". Es la causa raíz de despachos errados, devoluciones y reprocesos.",fix:"Convertirlo en checkpoint obligatorio con sello/escaneo (doble control), anclado a un corte de despacho fijo y no a la hora de salida."},
  {id:"n13",stage:12,lane:6,type:"decision",t:"¿Destino? provincia / local / recojo"},
  {id:"n14",stage:13,lane:0,type:"end",t:"Cliente recibe / recoge los repuestos"},
 ];
 const EDGES=[["n1","n2"],["n2","n3"],["n3","n4"],["n4","n5"],["n5","n6"],["n6","n7"],["n7","n8"],["n8","n9"],["n9","n10"],["n10","n11"],["n11","n12"],["n12","n13"],["n13","n14"]];
-const SEV={crit:{c:"var(--crit)",lbl:"Crítico"},high:{c:"var(--high)",lbl:"Alto"},med:{c:"var(--med)",lbl:"Medio"}};
+const SEV={crit:{k:"--crit",lbl:"Crítico"},high:{k:"--high",lbl:"Alto"},med:{k:"--med",lbl:"Medio"}};
 const BOTTLENECKS=[
  {rank:1,sev:"crit",title:"Verificación atada a la hora de salida",lane:"Despacho",desc:"El control de ítems se hace hacia las 5:15 p.m. y —según el propio archivo— a veces no se ejecuta.",fix:"Checkpoint obligatorio con sello/escaneo, desacoplado de la hora y con corte de despacho fijo."},
  {rank:2,sev:"high",title:"Picking multipiso con ascensor único",lane:"Almacén",desc:"Recorridos verticales por 1º/2º/3º piso y un ascensor compartido que forma colas.",fix:"Slotting ABC + wave picking por ruta para reducir movimientos verticales."},
@@ -432,68 +409,130 @@ const MATRIX=[
  {t:"Doble corte importación + SLA",eff:4,imp:7,sev:"high"},{t:"Escaneo QR + dashboard",eff:6,imp:9,sev:"high"},
  {t:"Crédito preaprobado / factura paralela",eff:6,imp:6,sev:"med"},{t:"Ampliación despacho + racks",eff:8,imp:5,sev:"high"},
 ];
+const cssVar=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const nodeById=id=>NODES.find(n=>n.id===id);
+let modeLane="asis",modeSeq="asis";
 
-const canvas=document.getElementById("canvas"),edgesSvg=document.getElementById("edges");
-const COLW=170,LANEH=78,LEFT=126;let mode="asis";
-function buildFlow(){
+/* ---- SEQUENCE VIEW ---- */
+const seqEl=document.getElementById("seq");
+function buildSeq(){
+  seqEl.innerHTML="";
+  const mode=modeSeq;
+  NODES.forEach((n,i)=>{
+    const m=n[mode];
+    const li=document.createElement("li");
+    let cls="seq-item",sevVar="",badge="";
+    let typeLabel=n.type==="start"?"Inicio":n.type==="end"?"Fin":n.type==="decision"?"Decisión":"Proceso";
+    let title=n.t;
+    if(m&&mode==="asis"&&m.bn){cls+=" bottleneck";sevVar=`--sev:var(${SEV[m.bn].k})`;typeLabel="Cuello · "+SEV[m.bn].lbl;title=m.t;
+      badge=`<span class="seq-badge" style="background:color-mix(in srgb,var(${SEV[m.bn].k}) 15%,transparent);color:var(${SEV[m.bn].k})">${SEV[m.bn].lbl}</span>`;}
+    else if(m&&mode==="tobe"&&m.imp){cls+=" improved";typeLabel="Mejora propuesta";title=m.t;
+      badge=`<span class="seq-badge" style="background:color-mix(in srgb,var(--teal) 15%,transparent);color:var(--teal-ink)">Mejora ✓</span>`;}
+    li.className=cls;li.style.cssText=sevVar;li.dataset.id=n.id;
+    const lc=LANE_COLORS[n.lane];
+    li.innerHTML=`<div class="seq-num">${String(i+1).padStart(2,"0")}</div>
+      <div class="seq-card"><div>
+        <div class="seq-meta"><span class="chip" style="background:${lc}">${LANES[n.lane]}</span><span class="seq-type">${typeLabel}</span></div>
+        <div class="seq-title">${title}</div></div>
+        <div style="display:flex;align-items:center;gap:12px">${badge}<span class="seq-go">›</span></div>
+      </div>`;
+    li.onclick=()=>openNode(n,modeSeq);
+    seqEl.appendChild(li);
+  });
+}
+
+/* ---- LANE (swimlane) VIEW ---- */
+const canvas=document.getElementById("canvas"),edgesSvg=document.getElementById("edges"),flowScroll=document.getElementById("flowScroll");
+const COLW=168,LEFT=118;let scale=1,fit=true;
+function buildLanes(){
+  const mode=modeLane;
   canvas.querySelectorAll(".lane-row").forEach(e=>e.remove());
   const maxStage=Math.max(...NODES.map(n=>n.stage));
-  canvas.style.width=(LEFT+(maxStage+1)*COLW+30)+"px";
+  canvas.style.width=(LEFT+(maxStage+1)*COLW+26)+"px";
   LANES.forEach((ln,li)=>{
     const row=document.createElement("div");row.className="lane-row"+(li%2?" alt":"");
-    row.innerHTML=`<div class="lane-name">${ln}</div><div class="lane-track"></div>`;
+    row.innerHTML=`<div class="lane-name"><span class="ldot" style="background:${LANE_COLORS[li]}"></span>${ln}</div><div class="lane-track"></div>`;
     canvas.appendChild(row);
     const track=row.querySelector(".lane-track");
-    NODES.filter(n=>n.lane===li).forEach(n=>{
+    NODES.forEach((n,i)=>{ if(n.lane!==li)return;
       const el=document.createElement("div"),m=n[mode];
       let cls="node "+n.type,sev="",label=n.t,nt=n.type==="start"?"Inicio":n.type==="end"?"Fin":n.type==="decision"?"Decisión":"Proceso";
-      if(m&&mode==="asis"&&m.bn){cls+=" bottleneck";sev=`--sev:${SEV[m.bn].c}`;label=m.t;nt="Cuello · "+SEV[m.bn].lbl;}
+      if(m&&mode==="asis"&&m.bn){cls+=" bottleneck";sev=`--sev:var(${SEV[m.bn].k})`;label=m.t;nt="Cuello · "+SEV[m.bn].lbl;}
       else if(m&&mode==="tobe"&&m.imp){cls+=" improved";label=m.t;nt="Mejora";}
       el.className=cls;el.style.cssText=`left:${n.stage*COLW}px;${sev}`;el.dataset.id=n.id;
-      el.innerHTML=`<span class="nt">${nt}</span>${label}`;
-      el.addEventListener("click",()=>openNode(n));
+      el.innerHTML=`<span class="nn">${i+1}</span><span class="nt">${nt}</span>${label}`;
+      el.onclick=()=>openNode(n,modeLane);
       track.appendChild(el);
     });
   });
+  applyFit();
+}
+function applyFit(){
+  const uw=canvas.offsetWidth,uh=canvas.offsetHeight;
+  if(fit){
+    const avail=flowScroll.clientWidth-2;
+    scale=Math.min(1,avail/uw);
+    canvas.style.transform=`scale(${scale})`;
+    flowScroll.style.overflowX="hidden";
+    flowScroll.style.height=(uh*scale)+"px";
+  }else{
+    scale=1;canvas.style.transform="none";flowScroll.style.overflowX="auto";flowScroll.style.height="auto";
+  }
   requestAnimationFrame(drawEdges);
 }
 function drawEdges(){
-  const cb=canvas.getBoundingClientRect();
-  edgesSvg.setAttribute("width",canvas.offsetWidth);edgesSvg.setAttribute("height",canvas.offsetHeight);
-  const pos={};let out="";
-  canvas.querySelectorAll(".node").forEach(el=>{const r=el.getBoundingClientRect();pos[el.dataset.id]={x:r.left-cb.left,y:r.top-cb.top,w:r.width,h:r.height};});
+  const mode=modeLane;
+  const uw=canvas.offsetWidth,uh=canvas.offsetHeight;
+  edgesSvg.setAttribute("width",uw);edgesSvg.setAttribute("height",uh);
+  const cb=canvas.getBoundingClientRect(),pos={};
+  canvas.querySelectorAll(".node").forEach(el=>{const r=el.getBoundingClientRect();
+    pos[el.dataset.id]={x:(r.left-cb.left)/scale,y:(r.top-cb.top)/scale,w:r.width/scale,h:r.height/scale};});
+  const cCrit=cssVar("--crit"),cHigh=cssVar("--high"),cMed=cssVar("--med"),cTeal=cssVar("--teal-ink"),cIdle=cssVar("--edge-idle");
+  const sevColor=k=>k==="--crit"?cCrit:k==="--high"?cHigh:cMed;
+  let out="";
   EDGES.forEach(([a,b])=>{
     const A=pos[a],B=pos[b];if(!A||!B)return;
+    const nb=nodeById(b);
+    let col=cIdle,w=1.3;
+    if(mode==="asis"&&nb.asis&&nb.asis.bn){col=sevColor(SEV[nb.asis.bn].k);w=2;}
+    else if(mode==="tobe"&&nb.tobe&&nb.tobe.imp){col=cTeal;w=1.8;}
     const x1=A.x+A.w,y1=A.y+A.h/2,x2=B.x,y2=B.y+B.h/2,mx=(x1+x2)/2;
-    const col=(isBn(b)&&mode==="asis")?SEV[nodeBn(b)].c:(mode==="tobe"&&isImp(b))?"var(--teal)":"rgba(148,152,180,.32)";
-    const w=(isBn(b)&&mode==="asis")?2:1.3;
     out+=`<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2-6},${y2}" fill="none" stroke="${col}" stroke-width="${w}"/>`;
     out+=`<path d="M${x2-6},${y2-3.5} L${x2},${y2} L${x2-6},${y2+3.5} Z" fill="${col}"/>`;
   });
   edgesSvg.innerHTML=out;
 }
-const nodeById=id=>NODES.find(n=>n.id===id);
-const isBn=id=>{const n=nodeById(id);return n&&n.asis&&n.asis.bn;};
-const nodeBn=id=>nodeById(id).asis.bn;
-const isImp=id=>{const n=nodeById(id);return n&&n.tobe&&n.tobe.imp;};
+document.getElementById("fitBtn").onclick=function(){fit=!fit;this.classList.toggle("on",fit);this.textContent=fit?"⤢ Ajustar a pantalla":"↔ Tamaño real";applyFit();};
 
+/* ---- MODE TOGGLES (independientes por bloque) ---- */
+document.querySelectorAll('.seg[data-toggle]').forEach(seg=>{
+  seg.addEventListener("click",e=>{
+    const b=e.target.closest("button");if(!b)return;
+    seg.querySelectorAll("button").forEach(x=>x.classList.remove("on"));b.classList.add("on");
+    if(seg.dataset.toggle==="lane"){modeLane=b.dataset.mode;buildLanes();}
+    else{modeSeq=b.dataset.mode;buildSeq();}
+  });
+});
+
+/* ---- DRAWER ---- */
 const drawer=document.getElementById("drawer"),overlay=document.getElementById("overlay"),dbody=document.getElementById("drawerBody");
-function openNode(n){
+function openNode(n,mode){
   const m=n[mode];let html="";
   const isBottle=mode==="asis"&&m&&m.bn,isImpN=mode==="tobe"&&m&&m.imp;
+  const lc=LANE_COLORS[n.lane];
   if(isBottle){const s=SEV[m.bn];
-    html+=`<span class="sev-tag" style="background:color-mix(in srgb,${s.c} 14%,transparent);color:${s.c}">Cuello · ${s.lbl}</span>`;
-    html+=`<h3>${m.t}</h3><div class="lane-chip">Área: ${LANES[n.lane]}</div>`;
+    html+=`<span class="sev-tag" style="background:color-mix(in srgb,var(${s.k}) 14%,transparent);color:var(${s.k})">Cuello · ${s.lbl}</span>`;
+    html+=`<h3>${m.t}</h3><div class="lane-chip"><span style="color:${lc}">●</span> Área: ${LANES[n.lane]}</div>`;
     html+=`<div class="block"><h4>Por qué frena</h4><p>${n.desc}</p></div>`;
     html+=`<div class="block ia"><h4>✦ Recomendación IA · Claude</h4><p>${n.fix}</p></div>`;
   }else if(isImpN){
-    html+=`<span class="sev-tag" style="background:color-mix(in srgb,var(--teal) 14%,transparent);color:var(--teal)">Mejora propuesta</span>`;
-    html+=`<h3>${m.t}</h3><div class="lane-chip">Área: ${LANES[n.lane]}</div>`;
+    html+=`<span class="sev-tag" style="background:color-mix(in srgb,var(--teal) 14%,transparent);color:var(--teal-ink)">Mejora propuesta</span>`;
+    html+=`<h3>${m.t}</h3><div class="lane-chip"><span style="color:${lc}">●</span> Área: ${LANES[n.lane]}</div>`;
     html+=`<div class="block"><h4>Qué resuelve</h4><p>${n.desc||"Optimización del paso para eliminar esperas y reprocesos."}</p></div>`;
     if(n.fix)html+=`<div class="block ia"><h4>✦ Cómo se aplica</h4><p>${n.fix}</p></div>`;
   }else{
-    html+=`<span class="sev-tag" style="background:color-mix(in srgb,var(--purple) 16%,transparent);color:var(--purple-soft)">${n.type==="decision"?"Punto de decisión":n.type==="start"?"Inicio":n.type==="end"?"Fin del proceso":"Paso del proceso"}</span>`;
-    html+=`<h3>${n.t}</h3><div class="lane-chip">Área: ${LANES[n.lane]}</div>`;
+    html+=`<span class="sev-tag" style="background:color-mix(in srgb,var(--purple) 16%,transparent);color:var(--purple)">${n.type==="decision"?"Punto de decisión":n.type==="start"?"Inicio":n.type==="end"?"Fin del proceso":"Paso del proceso"}</span>`;
+    html+=`<h3>${n.t}</h3><div class="lane-chip"><span style="color:${lc}">●</span> Área: ${LANES[n.lane]}</div>`;
     html+=`<div class="block"><h4>Rol en el flujo</h4><p>Paso ${n.stage+1} del recorrido de extremo a extremo. Sin observaciones críticas en este punto.</p></div>`;
   }
   dbody.innerHTML=html;drawer.classList.add("open");overlay.classList.add("show");
@@ -502,42 +541,46 @@ function closeDrawer(){drawer.classList.remove("open");overlay.classList.remove(
 document.getElementById("drawerClose").onclick=closeDrawer;overlay.onclick=closeDrawer;
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer();});
 
-const toggle=document.getElementById("toggle");
-toggle.querySelectorAll("button").forEach(b=>b.onclick=()=>{
-  mode=b.dataset.mode;toggle.querySelectorAll("button").forEach(x=>x.classList.remove("on"));b.classList.add("on");buildFlow();
-});
+/* ---- THEME ---- */
+const html=document.documentElement,tBtn=document.getElementById("themeBtn");
+function setTheme(t){
+  html.setAttribute("data-theme",t);
+  document.getElementById("themeIcon").textContent=t==="dark"?"☀️":"🌙";
+  document.getElementById("themeLbl").textContent=t==="dark"?"Claro":"Oscuro";
+  requestAnimationFrame(drawEdges);
+}
+tBtn.onclick=()=>setTheme(html.getAttribute("data-theme")==="dark"?"light":"dark");
 
+/* ---- CARDS / KPI / MATRIX ---- */
 const cardsEl=document.getElementById("cards");
-BOTTLENECKS.forEach(b=>{const s=SEV[b.sev];const c=document.createElement("div");
-  c.className="card";c.style.cssText=`--sev:${s.c}`;c.dataset.sev=b.sev;
-  c.innerHTML=`<span class="rank">${b.rank<10?"0":""}${b.rank}</span><span class="sev">${s.lbl}</span><h3>${b.title}</h3><p class="desc">${b.desc}</p><div class="fix"><b>Recomendación IA</b>${b.fix}</div>`;
+BOTTLENECKS.forEach(b=>{const c=document.createElement("div");
+  c.className="card";c.style.cssText=`--sev:var(${SEV[b.sev].k})`;c.dataset.sev=b.sev;
+  c.innerHTML=`<span class="rank">${b.rank<10?"0":""}${b.rank}</span><span class="sev">${SEV[b.sev].lbl}</span><h3>${b.title}</h3><p class="desc">${b.desc}</p><div class="fix"><b>Recomendación IA</b>${b.fix}</div>`;
   cardsEl.appendChild(c);});
 document.getElementById("filters").addEventListener("click",e=>{
   if(e.target.tagName!=="BUTTON")return;
-  document.querySelectorAll("#filters button").forEach(b=>b.classList.remove("active"));
-  e.target.classList.add("active");const f=e.target.dataset.f;
-  document.querySelectorAll(".card").forEach(c=>c.classList.toggle("hide",f!=="all"&&c.dataset.sev!==f));
+  document.querySelectorAll("#filters button").forEach(b=>b.classList.remove("active"));e.target.classList.add("active");
+  const f=e.target.dataset.f;document.querySelectorAll(".card").forEach(c=>c.classList.toggle("hide",f!=="all"&&c.dataset.sev!==f));
 });
-
 const kg=document.getElementById("kpis-grid");
 KPIS.forEach(k=>{const el=document.createElement("div");el.className="kpi";
-  el.innerHTML=`<div class="kt">${k.t}</div><div class="kv"><span class="from">${k.from}</span><span class="arrow">→</span><span class="to">${k.to}</span></div><div class="bar"><i data-pct="${k.pct}"></i></div><div class="goal">${k.goal}</div>`;
-  kg.appendChild(el);});
-
+  el.innerHTML=`<div class="kt">${k.t}</div><div class="kv"><span class="from">${k.from}</span><span class="arrow">→</span><span class="to">${k.to}</span></div><div class="bar"><i data-pct="${k.pct}"></i></div><div class="goal">${k.goal}</div>`;kg.appendChild(el);});
 const mx=document.getElementById("matrix");
-MATRIX.forEach(m=>{const p=document.createElement("div");p.className="plot";const s=SEV[m.sev];
-  p.style.cssText=`left:${m.eff/10*100}%;bottom:${m.imp/10*100}%;background:${s.c}`;
+MATRIX.forEach(m=>{const p=document.createElement("div");p.className="plot";
+  p.style.cssText=`left:${m.eff/10*100}%;bottom:${m.imp/10*100}%;background:var(${SEV[m.sev].k})`;
   p.innerHTML=`<span class="tip">${m.t}</span>`;mx.appendChild(p);});
 
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}}),{threshold:.14});
+/* ---- ANIM ---- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}}),{threshold:.12});
 document.querySelectorAll(".reveal").forEach(e=>io.observe(e));
-const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,end=+el.dataset.count;let cur=0;const st=Math.max(1,Math.ceil(end/40));const t=setInterval(()=>{cur+=st;if(cur>=end){cur=end;clearInterval(t);}el.textContent=cur;},26);cio.unobserve(el);}),{threshold:.6});
+const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,end=+el.dataset.count;let c=0,st=Math.max(1,Math.ceil(end/40));const t=setInterval(()=>{c+=st;if(c>=end){c=end;clearInterval(t);}el.textContent=c;},26);cio.unobserve(el);}),{threshold:.6});
 document.querySelectorAll("[data-count]").forEach(e=>cio.observe(e));
 const bio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.style.width=e.target.dataset.pct+"%";bio.unobserve(e.target);}}),{threshold:.5});
 document.querySelectorAll(".kpi .bar i").forEach(e=>bio.observe(e));
 
-window.addEventListener("resize",()=>requestAnimationFrame(drawEdges));
-buildFlow();setTimeout(drawEdges,300);
+window.addEventListener("resize",()=>applyFit());
+buildSeq();
+buildLanes();
 </script>
 </body>
 </html>
